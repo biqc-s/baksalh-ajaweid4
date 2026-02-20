@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>كرام الأرومة — المتحف الرقمي التراثي | اجاويد4</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --red: #C0392B;
+            --green: #1E8449;
+            --blue: #1A5276;
+            --gold: #D4A017;
+            --orange: #E67E22;
+            --dark: #0F0F1A;
+            --dark2: #1A1A2E;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--dark);
+            color: #E8E8E8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ===== AMBIENT BG ===== */
+        .bg-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .bg-glow .orb {
+            position: absolute; border-radius: 50%;
+            filter: blur(100px); opacity: 0.07;
+            animation: fl 20s ease-in-out infinite;
+        }
+        .bg-glow .orb:nth-child(1) { width: 500px; height: 500px; background: var(--red); top: -10%; right: -5%; }
+        .bg-glow .orb:nth-child(2) { width: 400px; height: 400px; background: var(--gold); bottom: 20%; left: -10%; animation-delay: -7s; }
+        .bg-glow .orb:nth-child(3) { width: 350px; height: 350px; background: var(--green); top: 50%; right: 30%; animation-delay: -14s; }
+        @keyframes fl {
+            0%,100% { transform: translate(0,0) scale(1); }
+            33% { transform: translate(30px,-40px) scale(1.1); }
+            66% { transform: translate(-20px,20px) scale(0.95); }
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+            background: rgba(15,15,26,0.7);
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(212,160,23,0.1);
+            transition: background 0.3s;
+        }
+        nav.scrolled { background: rgba(15,15,26,0.95); }
+        .nav-inner {
+            max-width: 1100px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 20px; height: 60px;
+        }
+        .nav-logo { font-family: 'Amiri', serif; font-size: 1.15rem; font-weight: 700; color: var(--gold); }
+
+        /* Hamburger */
+        .hamburger {
+            display: flex; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 10px; z-index: 1001;
+            background: none; border: none;
+        }
+        .hamburger span {
+            display: block; width: 24px; height: 2px;
+            background: var(--gold); border-radius: 2px; transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed; inset: 0; z-index: 999;
+            background: rgba(15,15,26,0.97);
+            backdrop-filter: blur(30px);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .mobile-menu.open { transform: translateY(0); }
+        .mobile-menu a {
+            color: #AAA; text-decoration: none;
+            font-size: 1.25rem; font-weight: 500;
+            padding: 16px 48px; border-radius: 16px;
+            transition: all 0.3s; width: 80%; text-align: center;
+        }
+        .mobile-menu a:active { color: var(--gold); background: rgba(212,160,23,0.08); }
+
+        /* Desktop Nav */
+        .nav-links { display: none; list-style: none; gap: 28px; }
+        .nav-links a { color: #888; text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--gold); }
+        @media (min-width: 900px) {
+            .hamburger { display: none; }
+            .nav-links { display: flex; }
+            .nav-inner { padding: 0 40px; height: 64px; }
+        }
+
+        /* ===== SECTIONS ===== */
+        .section { position: relative; z-index: 1; padding: 56px 20px; max-width: 1100px; margin: 0 auto; }
+        @media (min-width: 900px) { .section { padding: 100px 40px; } }
+
+        .section-label {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 2px; color: var(--gold); margin-bottom: 12px;
+        }
+        .section-label::before { content: ''; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 1.7rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4;
+        }
+        @media (min-width: 900px) { .section-title { font-size: 2.8rem; } }
+
+        .section-desc { font-size: 0.95rem; color: #888; max-width: 650px; line-height: 1.9; margin-bottom: 36px; }
+        .divider { height: 1px; max-width: 1100px; margin: 0 auto; background: linear-gradient(90deg, transparent, rgba(212,160,23,0.15), transparent); }
+
+        /* ===== HERO ===== */
+        .hero {
+            position: relative; z-index: 1;
+            min-height: 100svh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; padding: 90px 20px 50px;
+        }
+        .hero-content { max-width: 800px; width: 100%; }
+
+        .hero-badge {
+            display: inline-block; padding: 8px 18px;
+            border: 1px solid rgba(212,160,23,0.4);
+            border-radius: 50px; font-size: 0.75rem;
+            color: var(--gold); margin-bottom: 24px;
+            letter-spacing: 1px; animation: fadeUp 0.7s ease-out;
+        }
+
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2rem; font-weight: 700; line-height: 1.4;
+            margin-bottom: 18px; animation: fadeUp 0.7s ease-out 0.15s both;
+        }
+        @media (min-width: 900px) { .hero h1 { font-size: 4rem; } }
+        @media (min-width: 500px) and (max-width: 899px) { .hero h1 { font-size: 2.6rem; } }
+
+        .hero h1 .hl {
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 0.95rem; color: #999; max-width: 550px;
+            margin: 0 auto 32px; line-height: 1.9;
+            animation: fadeUp 0.7s ease-out 0.3s both;
+        }
+
+        .hero-stats {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px; animation: fadeUp 0.7s ease-out 0.45s both;
+        }
+        .stat {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px; padding: 16px 8px; text-align: center;
+        }
+        .stat-num { display: block; font-size: 1.6rem; font-weight: 800; color: var(--gold); }
+        @media (min-width: 900px) { .stat-num { font-size: 2.2rem; } .stat { padding: 24px 32px; border-radius: 20px; } }
+        .stat-lbl { font-size: 0.75rem; color: #777; margin-top: 2px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* ===== PROPOSER ===== */
+        .proposer-card {
+            background: linear-gradient(135deg, rgba(212,160,23,0.04), rgba(192,57,43,0.03));
+            border: 1px solid rgba(212,160,23,0.12);
+            border-radius: 20px; padding: 28px 20px; position: relative; overflow: hidden;
+        }
+        .proposer-card::before {
+            content: ''; position: absolute; top: 0; right: 0; left: 0;
+            height: 3px; background: linear-gradient(90deg, var(--gold), var(--red), var(--green), var(--blue));
+        }
+        @media (min-width: 900px) {
+            .proposer-card { display: grid; grid-template-columns: 260px 1fr; gap: 40px; padding: 48px; border-radius: 24px; }
+        }
+
+        .proposer-top {
+            display: flex; flex-direction: column;
+            align-items: center; text-align: center; gap: 14px; margin-bottom: 24px;
+        }
+        @media (min-width: 900px) { .proposer-top { margin-bottom: 0; } }
+
+        .avatar {
+            width: 80px; height: 80px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Amiri', serif; font-size: 2rem; font-weight: 700; color: var(--dark);
+            box-shadow: 0 6px 24px rgba(212,160,23,0.3);
+        }
+        @media (min-width: 900px) { .avatar { width: 96px; height: 96px; font-size: 2.4rem; } }
+
+        .proposer-name { font-family: 'Amiri', serif; font-size: 1.5rem; font-weight: 700; }
+        .proposer-role { font-size: 0.88rem; color: #999; line-height: 1.7; }
+
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 10px; }
+        .tag { padding: 7px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+        .tag a { color: inherit; text-decoration: none; }
+        .tag.t1 { background: rgba(192,57,43,0.12); color: #E74C3C; border: 1px solid rgba(192,57,43,0.2); }
+        .tag.t2 { background: rgba(30,132,73,0.12); color: #2ECC71; border: 1px solid rgba(30,132,73,0.2); }
+        .tag.t3 { background: rgba(52,152,219,0.12); color: #3498DB; border: 1px solid rgba(52,152,219,0.2); }
+        .tag.t4 { background: rgba(212,160,23,0.12); color: var(--gold); border: 1px solid rgba(212,160,23,0.2); }
+        .tag.t5 { background: linear-gradient(135deg, rgba(155,89,182,0.15), rgba(52,152,219,0.15)); color: #BB86FC; border: 1px solid rgba(155,89,182,0.25); }
+
+        /* ===== BIKSALA ===== */
+        .biksala-card {
+            background: linear-gradient(135deg, rgba(155,89,182,0.04), rgba(52,152,219,0.03));
+            border: 1px solid rgba(155,89,182,0.12);
+            border-radius: 20px; padding: 28px 20px; position: relative; overflow: hidden;
+        }
+        .biksala-card::before {
+            content: ''; position: absolute; top: 0; right: 0; left: 0;
+            height: 3px; background: linear-gradient(90deg, #9B59B6, #3498DB, var(--gold));
+        }
+        @media (min-width: 900px) { .biksala-card { padding: 48px; border-radius: 24px; } }
+
+        .bik-formula {
+            display: flex; align-items: center; justify-content: center;
+            gap: 12px; flex-wrap: wrap; margin-bottom: 32px;
+            padding-bottom: 28px; border-bottom: 1px solid rgba(155,89,182,0.1);
+        }
+        @media (min-width: 900px) { .bik-formula { gap: 20px; } }
+
+        .bik-word {
+            text-align: center; padding: 16px 14px;
+            background: rgba(255,255,255,0.03); border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            min-width: 100px; flex: 1; max-width: 180px;
+        }
+        .bik-word.bik-result {
+            background: linear-gradient(135deg, rgba(155,89,182,0.1), rgba(52,152,219,0.08));
+            border-color: rgba(155,89,182,0.2);
+            box-shadow: 0 4px 20px rgba(155,89,182,0.1);
+        }
+        .bik-ar { display: block; font-family: 'Amiri', serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }
+        .bik-result .bik-ar { font-size: 1.5rem; color: #BB86FC; }
+        @media (min-width: 900px) { .bik-ar { font-size: 1.5rem; } .bik-result .bik-ar { font-size: 1.8rem; } }
+        .bik-en { display: block; font-size: 0.72rem; color: #666; letter-spacing: 1px; margin-bottom: 6px; }
+        .bik-meaning { display: block; font-size: 0.78rem; color: #888; line-height: 1.5; }
+
+        .bik-plus, .bik-equals {
+            font-size: 1.5rem; font-weight: 800; color: #666; flex-shrink: 0;
+        }
+        .bik-equals { color: #BB86FC; }
+
+        .bik-story { display: flex; flex-direction: column; gap: 12px; }
+        .bik-story-item {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 16px; background: rgba(255,255,255,0.03);
+            border-radius: 14px; border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .bik-story-item:active { background: rgba(255,255,255,0.07); }
+        .bik-story-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+        .bik-story-item h4 { font-size: 0.92rem; font-weight: 700; color: #BB86FC; margin-bottom: 3px; }
+        .bik-story-item p { font-size: 0.85rem; color: #888; line-height: 1.8; }
+
+        .vision-list { display: flex; flex-direction: column; gap: 12px; }
+        .v-item {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 16px; background: rgba(255,255,255,0.03);
+            border-radius: 14px; border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s;
+        }
+        .v-item:active { background: rgba(255,255,255,0.07); }
+        .v-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+        .v-item h4 { font-size: 0.92rem; font-weight: 700; color: var(--gold); margin-bottom: 3px; }
+        .v-item p { font-size: 0.85rem; color: #888; line-height: 1.7; }
+
+        /* ===== TECH ===== */
+        .tech-grid { display: grid; gap: 14px; }
+        @media (min-width: 700px) { .tech-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+
+        .tech-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 24px 20px; position: relative; overflow: hidden;
+            transition: all 0.3s;
+        }
+        .tech-card::after {
+            content: ''; position: absolute; top: 0; right: 0; left: 0;
+            height: 3px; opacity: 0; transition: opacity 0.3s;
+            background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+        }
+        .tech-card:active { background: rgba(255,255,255,0.06); }
+        @media (min-width: 900px) { .tech-card:hover { background: rgba(255,255,255,0.06); } .tech-card:hover::after { opacity: 1; } }
+
+        .tc-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 14px;
+        }
+        .tc-icon.r { background: rgba(192,57,43,0.12); }
+        .tc-icon.g { background: rgba(212,160,23,0.12); }
+        .tc-icon.b { background: rgba(30,132,73,0.12); }
+
+        .tech-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+        .tech-card p { font-size: 0.88rem; color: #888; line-height: 1.8; }
+        .tech-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+        .tt { padding: 4px 12px; background: rgba(212,160,23,0.08); border-radius: 20px; font-size: 0.73rem; color: var(--gold); }
+
+        /* ===== EXPERIENCE ===== */
+        .exp-grid { display: grid; gap: 12px; }
+        @media (min-width: 700px) { .exp-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+
+        .exp-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 22px 20px;
+            display: flex; gap: 16px; align-items: flex-start; transition: all 0.3s;
+        }
+        @media (min-width: 700px) { .exp-card { flex-direction: column; text-align: center; align-items: center; padding: 36px 24px; } }
+        .exp-card:active { background: rgba(255,255,255,0.06); }
+        .exp-emoji { font-size: 1.8rem; flex-shrink: 0; }
+        @media (min-width: 700px) { .exp-emoji { font-size: 2.4rem; } }
+        .exp-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 5px; }
+        .exp-card p { font-size: 0.85rem; color: #888; line-height: 1.7; }
+
+        /* ===== COMMUNITY ===== */
+        .flow-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        @media (min-width: 700px) { .flow-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
+
+        .flow-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 22px 14px;
+            text-align: center; transition: all 0.3s;
+        }
+        .flow-card:active { background: rgba(255,255,255,0.06); }
+        .flow-num {
+            width: 34px; height: 34px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--orange));
+            color: var(--dark); font-weight: 800; font-size: 0.95rem;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .flow-card h3 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; }
+        .flow-card p { font-size: 0.8rem; color: #888; line-height: 1.7; }
+
+        /* ===== ROADMAP ===== */
+        .rm-container { position: relative; }
+        .rm-line {
+            position: absolute; right: 13px; top: 0; bottom: 0;
+            width: 2px; background: linear-gradient(180deg, var(--red), var(--gold), var(--green), #3498DB); opacity: 0.2;
+        }
+        @media (min-width: 900px) { .rm-line { right: 24px; } }
+
+        .rm-phase { position: relative; padding-right: 44px; margin-bottom: 36px; }
+        @media (min-width: 900px) { .rm-phase { padding-right: 64px; } }
+        .rm-phase:last-child { margin-bottom: 0; }
+
+        .rm-dot {
+            position: absolute; right: 2px; top: 6px;
+            width: 22px; height: 22px; border-radius: 50%;
+            border: 3px solid; background: var(--dark); z-index: 2;
+        }
+        .rm-dot.cr { border-color: var(--red); }
+        .rm-dot.cg { border-color: var(--gold); }
+        .rm-dot.cgr { border-color: var(--green); }
+        .rm-dot.cb { border-color: #3498DB; }
+
+        .rm-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+        .rm-name { font-family: 'Amiri', serif; font-size: 1.15rem; font-weight: 700; }
+        @media (min-width: 900px) { .rm-name { font-size: 1.4rem; } }
+
+        .rm-badge { padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .rm-badge.cr { background: rgba(192,57,43,0.12); color: var(--red); }
+        .rm-badge.cg { background: rgba(212,160,23,0.12); color: var(--gold); }
+        .rm-badge.cgr { background: rgba(30,132,73,0.12); color: var(--green); }
+        .rm-badge.cb { background: rgba(52,152,219,0.12); color: #3498DB; }
+
+        .rm-tasks { display: flex; flex-direction: column; gap: 10px; }
+        .rm-task {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px; padding: 16px; transition: all 0.3s;
+        }
+        .rm-task:active { background: rgba(255,255,255,0.06); }
+
+        .rm-task-head { display: flex; gap: 10px; align-items: center; margin-bottom: 6px; }
+        .day-b {
+            min-width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 0.8rem; flex-shrink: 0;
+        }
+        .day-b.cr { background: rgba(192,57,43,0.1); color: var(--red); }
+        .day-b.cg { background: rgba(212,160,23,0.1); color: var(--gold); }
+        .day-b.cgr { background: rgba(30,132,73,0.1); color: var(--green); }
+        .day-b.cb { background: rgba(52,152,219,0.1); color: #3498DB; }
+
+        .rm-task h4 { font-size: 0.92rem; font-weight: 600; }
+        .rm-task p { font-size: 0.83rem; color: #777; line-height: 1.7; margin-top: 4px; }
+
+        .tools-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 8px; }
+        .tl {
+            padding: 3px 9px; background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 6px; font-size: 0.7rem; color: #999;
+        }
+
+        /* ===== GANTT ===== */
+        .gantt-wrap {
+            margin-top: 40px; background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px; padding: 20px 14px;
+            overflow-x: auto; -webkit-overflow-scrolling: touch;
+        }
+        @media (min-width: 900px) { .gantt-wrap { padding: 40px; } }
+
+        .gantt-title { font-family: 'Amiri', serif; font-size: 1.1rem; font-weight: 700; margin-bottom: 16px; text-align: center; }
+
+        .scroll-hint { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.78rem; color: #555; margin-bottom: 12px; }
+        @media (min-width: 900px) { .scroll-hint { display: none; } }
+
+        .gantt-scroll { min-width: 650px; }
+        .gantt-row { display: grid; grid-template-columns: 100px repeat(20, 1fr); gap: 2px; margin-bottom: 3px; align-items: center; }
+        @media (min-width: 900px) { .gantt-row { grid-template-columns: 150px repeat(20, 1fr); } }
+
+        .gl { font-size: 0.68rem; color: #888; padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gh { font-size: 0.6rem; color: #555; text-align: center; padding: 5px 0; }
+        .gc { height: 24px; border-radius: 3px; background: rgba(255,255,255,0.015); }
+        @media (min-width: 900px) { .gc { height: 32px; } }
+
+        .gc.ar { background: linear-gradient(135deg, var(--red), #E74C3C); opacity: 0.75; }
+        .gc.ag { background: linear-gradient(135deg, var(--gold), var(--orange)); opacity: 0.75; }
+        .gc.agr { background: linear-gradient(135deg, var(--green), #27AE60); opacity: 0.75; }
+        .gc.ab { background: linear-gradient(135deg, var(--blue), #3498DB); opacity: 0.75; }
+
+        /* ===== FOOTER ===== */
+        footer {
+            position: relative; z-index: 1;
+            text-align: center; padding: 40px 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .ft-logo { font-family: 'Amiri', serif; font-size: 1.2rem; color: var(--gold); margin-bottom: 10px; }
+        footer p { color: #555; font-size: 0.82rem; line-height: 1.8; }
+        footer a { color: var(--gold); text-decoration: none; }
+
+        /* ===== ANIMATIONS ===== */
+        .anim { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .anim.show { opacity: 1; transform: translateY(0); }
+        .stag > .anim:nth-child(1) { transition-delay: 0s; }
+        .stag > .anim:nth-child(2) { transition-delay: 0.08s; }
+        .stag > .anim:nth-child(3) { transition-delay: 0.16s; }
+        .stag > .anim:nth-child(4) { transition-delay: 0.24s; }
+
+        /* ===== PRINT ===== */
+        @media print { nav,.bg-glow,.hamburger,.mobile-menu { display: none !important; } body { background: #fff; color: #333; } }
+    </style>
+</head>
+<body>
+
+<div class="bg-glow"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
+
+<!-- Nav -->
+<nav id="navbar">
+    <div class="nav-inner">
+        <div class="nav-logo">🏛️ كرام الأرومة</div>
+        <ul class="nav-links">
+            <li><a href="#hero">الرئيسية</a></li>
+            <li><a href="#proposer">المقترح</a></li>
+            <li><a href="#biksala">بِكْسَلة</a></li>
+            <li><a href="#tech">التقنية</a></li>
+            <li><a href="#experience">التجربة</a></li>
+            <li><a href="#community">المجتمع</a></li>
+            <li><a href="#roadmap">خارطة الطريق</a></li>
+        </ul>
+        <button class="hamburger" id="burger" aria-label="القائمة"><span></span><span></span><span></span></button>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#hero" onclick="closeMenu()">🏠 الرئيسية</a>
+    <a href="#proposer" onclick="closeMenu()">👤 المقترح</a>
+    <a href="#biksala" onclick="closeMenu()">✨ بِكْسَلة</a>
+    <a href="#tech" onclick="closeMenu()">⚡ التقنية</a>
+    <a href="#experience" onclick="closeMenu()">🎮 التجربة</a>
+    <a href="#community" onclick="closeMenu()">🤝 المجتمع</a>
+    <a href="#roadmap" onclick="closeMenu()">🗺️ خارطة الطريق</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-content">
+        <span class="hero-badge">مقترح من سعيد جهاش — مشروع اجاويد4</span>
+        <h1><span class="hl">كرام الأرومة</span><br>المتحف الرقمي التراثي — عسير</h1>
+        <p class="hero-sub">تحويل القطع التراثية الحقيقية من منطقة عسير إلى أصول رقمية تفاعلية باستخدام تقنيات المسح الضوئي ومحرك Unreal Engine</p>
+        <div class="hero-stats">
+            <div class="stat"><span class="stat-num">20</span><span class="stat-lbl">يوم للإنجاز</span></div>
+            <div class="stat"><span class="stat-num">4</span><span class="stat-lbl">مراحل تنفيذ</span></div>
+            <div class="stat"><span class="stat-num">∞</span><span class="stat-lbl">قطع للتوثيق</span></div>
+        </div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- PROPOSER -->
+<section class="section" id="proposer">
+    <div class="anim"><span class="section-label">صاحب المقترح</span><h2 class="section-title">سعيد جهاش</h2></div>
+    <div class="proposer-card anim">
+        <div class="proposer-top">
+            <div class="avatar">س</div>
+            <div>
+                <h3 class="proposer-name">سعيد جهاش</h3>
+                <p class="proposer-role">مطور ألعاب وتقنيات الواقع الافتراضي<br>ناشط في حفظ التراث العسيري</p>
+                <div class="tags">
+                    <span class="tag t1">كرام الأرومة</span>
+                    <span class="tag t2">اجاويد4</span>
+                    <span class="tag t5">بِكْسَلة</span>
+                    <span class="tag t3"><a href="https://i3j.io" target="_blank">i3j.io</a></span>
+                    <span class="tag t4"><a href="https://biqc.sa" target="_blank">biqc.sa</a></span>
+                </div>
+            </div>
+        </div>
+        <div class="vision-list">
+            <div class="v-item"><span class="v-icon">🎯</span><div><h4>الرؤية</h4><p>توثيق رقمي تفاعلي للتراث العسيري يحفظه للأجيال القادمة بأحدث التقنيات</p></div></div>
+            <div class="v-item"><span class="v-icon">🏛️</span><div><h4>المشروع</h4><p>كرام الأرومة — متحف رقمي تفاعلي يحول القطع التراثية الحقيقية إلى توائم رقمية</p></div></div>
+            <div class="v-item"><span class="v-icon">🤝</span><div><h4>المبادرة</h4><p>اجاويد4 — إشراك المجتمع في بناء أكبر أرشيف رقمي تراثي لمنطقة عسير</p></div></div>
+            <div class="v-item" style="border-color:rgba(155,89,182,0.15);"><span class="v-icon">✨</span><div><h4 style="color:#BB86FC;">الهوية</h4><p>بِكْسَلة — كل بكسل يحمل أصالة الماضي، فلسفة تجمع بين الرقمنة والأصالة</p></div></div>
+        </div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- BIKSALA NAME -->
+<section class="section" id="biksala">
+    <div class="anim">
+        <span class="section-label">هوية المبادرة</span>
+        <h2 class="section-title">لماذا "بِكْسَلة"؟</h2>
+    </div>
+    <div class="biksala-card anim">
+        <div class="bik-formula">
+            <div class="bik-word">
+                <span class="bik-ar">بِكْسِل</span>
+                <span class="bik-en">Pixel</span>
+                <span class="bik-meaning">أصغر وحدة في الصورة الرقمية</span>
+            </div>
+            <div class="bik-plus">+</div>
+            <div class="bik-word">
+                <span class="bik-ar">أصَالة</span>
+                <span class="bik-en">Authenticity</span>
+                <span class="bik-meaning">الجذور والتراث والهوية العريقة</span>
+            </div>
+            <div class="bik-equals">=</div>
+            <div class="bik-word bik-result">
+                <span class="bik-ar">بِكْسَلة</span>
+                <span class="bik-en">Biksala</span>
+                <span class="bik-meaning">كل بِكسل يحمل أصالة الماضي</span>
+            </div>
+        </div>
+        <div class="bik-story">
+            <div class="bik-story-item">
+                <span class="bik-story-icon">🔬</span>
+                <div>
+                    <h4>المعنى التقني</h4>
+                    <p>البِكسل هو أصغر نقطة في أي صورة رقمية — وعندما نوثّق قطعة تراثية رقمياً، كل بكسل فيها يحمل جزءاً من تاريخها وألوانها ونقوشها الأصيلة</p>
+                </div>
+            </div>
+            <div class="bik-story-item">
+                <span class="bik-story-icon">🏺</span>
+                <div>
+                    <h4>المعنى التراثي</h4>
+                    <p>الأصالة هي الجوهر الذي نسعى لحفظه — أصالة القط العسيري، أصالة الأدوات التراثية، أصالة الحكايات المتوارثة. دمجها مع البكسل يعني أن التقنية في خدمة التراث</p>
+                </div>
+            </div>
+            <div class="bik-story-item">
+                <span class="bik-story-icon">💡</span>
+                <div>
+                    <h4>الرسالة</h4>
+                    <p>بِكْسَلة ليست مجرد اسم — هي فلسفة عمل: كل نقطة رقمية نصنعها يجب أن تحمل روح وأصالة القطعة الحقيقية. لا نرقمن التراث فقط، بل نُحييه</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- TECH -->
+<section class="section" id="tech">
+    <div class="anim"><span class="section-label">التقنية المستخدمة</span><h2 class="section-title">Digital Twins — التوائم الرقمية</h2><p class="section-desc">نسخ رقمية طبق الأصل من القطع التراثية باستخدام أحدث تقنيات المسح الضوئي والمعالجة ثلاثية الأبعاد</p></div>
+    <div class="tech-grid stag">
+        <div class="tech-card anim"><div class="tc-icon r">📸</div><h3>التصوير المساحي الضوئي</h3><p>يقوم المشاركون بتصوير القطعة من جميع الزوايا (360°) بهواتفهم. يكفي 30-50 صورة لإنشاء نموذج ثلاثي الأبعاد دقيق.</p><div class="tech-tags"><span class="tt">Photogrammetry</span></div></div>
+        <div class="tech-card anim"><div class="tc-icon g">🔧</div><h3>المعالجة والتحويل</h3><p>معالجة الصور وتحويلها إلى نماذج 3D عالية الدقة مع الحفاظ على أدق تفاصيل الألوان والنقوش.</p><div class="tech-tags"><span class="tt">RealityCapture</span><span class="tt">Polycam</span></div></div>
+        <div class="tech-card anim"><div class="tc-icon b">🎮</div><h3>محرك Unreal Engine</h3><p>دمج النماذج في بيئة تفاعلية باستخدام تقنية Nanite للتعامل مع ملايين المضلعات دون التأثير على الأداء.</p><div class="tech-tags"><span class="tt">Nanite</span><span class="tt">Lumen</span><span class="tt">UE5</span></div></div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+    <div class="anim"><span class="section-label">تجربة المستخدم</span><h2 class="section-title">ليس مجرد معرض — بل تجربة حية</h2><p class="section-desc">تجربة تفاعلية غامرة تجمع بين التعليم والترفيه والتوثيق بطابع عسيري أصيل</p></div>
+    <div class="exp-grid stag">
+        <div class="exp-card anim"><span class="exp-emoji">🤲</span><div><h3>التفاعل المباشر</h3><p>إمكانية إمساك القطعة وتدويرها وتكبيرها مع شرح صوتي بلهجة أهل المنطقة</p></div></div>
+        <div class="exp-card anim"><span class="exp-emoji">🏠</span><div><h3>البيئة العسيرية</h3><p>المتحف مستوحى من العمارة العسيرية: الرقف والقط العسيري والألوان الأصيلة</p></div></div>
+        <div class="exp-card anim"><span class="exp-emoji">🎯</span><div><h3>نظام المهام</h3><p>اجمع القطع لإكمال "مجلس عسيري" قديم — عنصر Gamification يضيف المتعة</p></div></div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- COMMUNITY -->
+<section class="section" id="community">
+    <div class="anim"><span class="section-label">المشاركة المجتمعية</span><h2 class="section-title">نظام "القيّم الرقمي"</h2><p class="section-desc">آلية مبتكرة تتيح لأهالي عسير المساهمة في بناء المتحف وتوثيق قطعهم التراثية رقمياً</p></div>
+    <div class="flow-grid stag">
+        <div class="flow-card anim"><div class="flow-num">١</div><h3>التصوير</h3><p>يصور صاحب القطعة من جميع الزوايا بهاتفه</p></div>
+        <div class="flow-card anim"><div class="flow-num">٢</div><h3>الرفع</h3><p>يرفع الصور مع قصة القطعة عبر منصة الاستقبال</p></div>
+        <div class="flow-card anim"><div class="flow-num">٣</div><h3>المعالجة</h3><p>تحويل الصور لنموذج 3D ومراجعة الجودة</p></div>
+        <div class="flow-card anim"><div class="flow-num">٤</div><h3>العرض</h3><p>تُعرض القطعة في المتحف ببطاقة تعريفية تذكر المتبرع</p></div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- ROADMAP -->
+<section class="section" id="roadmap">
+    <div class="anim"><span class="section-label">خارطة الطريق</span><h2 class="section-title">خطة التنفيذ — 20 يوم</h2><p class="section-desc">خطة عملية مقسمة على 4 مراحل من التجهيز وحتى الإطلاق التجريبي</p></div>
+    <div class="rm-container">
+        <div class="rm-line"></div>
+
+        <div class="rm-phase anim">
+            <div class="rm-dot cr"></div>
+            <div class="rm-head"><span class="rm-name">التجهيز والاختبار</span><span class="rm-badge cr">اليوم 1 — 5</span></div>
+            <div class="rm-tasks">
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cr">1-2</div><h4>تجهيز بيئة العمل</h4></div><p>تثبيت RealityCapture / Polycam + UE5. إعداد مشروع جديد مع تفعيل Nanite و Lumen.</p><div class="tools-row"><span class="tl">UE5</span><span class="tl">RealityCapture</span><span class="tl">Polycam</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cr">3-4</div><h4>تصوير قطع تجريبية (MVP)</h4></div><p>اختيار 3 قطع تراثية وتصويرها من جميع الزوايا (50+ صورة لكل قطعة). تحويلها لنماذج 3D.</p><div class="tools-row"><span class="tl">هاتف ذكي</span><span class="tl">إضاءة طبيعية</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cr">5</div><h4>مراجعة وتحسين النماذج</h4></div><p>تنظيف النماذج، تحسين Textures، ضبط مقياس الحجم الواقعي.</p><div class="tools-row"><span class="tl">Blender</span><span class="tl">Texture Optimization</span></div></div>
+            </div>
+        </div>
+
+        <div class="rm-phase anim">
+            <div class="rm-dot cg"></div>
+            <div class="rm-head"><span class="rm-name">بناء المتحف</span><span class="rm-badge cg">اليوم 6 — 12</span></div>
+            <div class="rm-tasks">
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cg">6-8</div><h4>تصميم القاعة الرئيسية</h4></div><p>بناء البيئة المعمارية العسيرية: نقوش القط العسيري، الإضاءة الدرامية، منصات العرض.</p><div class="tools-row"><span class="tl">UE5 Level Design</span><span class="tl">Lumen GI</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cg">9-10</div><h4>نظام التفاعل</h4></div><p>برمجة نظام إمساك وتدوير القطع باستخدام Blueprints. إضافة واجهة المستخدم والبطاقات.</p><div class="tools-row"><span class="tl">Blueprints</span><span class="tl">UMG Widget</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cg">11-12</div><h4>الشرح الصوتي والمؤثرات</h4></div><p>تسجيل شرح صوتي بلهجة عسيرية. إضافة مؤثرات صوتية وبصرية عند التفاعل.</p><div class="tools-row"><span class="tl">ElevenLabs</span><span class="tl">Niagara FX</span></div></div>
+            </div>
+        </div>
+
+        <div class="rm-phase anim">
+            <div class="rm-dot cgr"></div>
+            <div class="rm-head"><span class="rm-name">المنصة والمجتمع</span><span class="rm-badge cgr">اليوم 13 — 17</span></div>
+            <div class="rm-tasks">
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cgr">13-14</div><h4>منصة استقبال القطع</h4></div><p>بناء صفحة ويب على نطاق <strong style="color:var(--gold)">i3j.io</strong> لاستقبال صور القطع من المجتمع.</p><div class="tools-row"><span class="tl">HTML/CSS/JS</span><span class="tl">Cloudflare</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cgr">15-16</div><h4>نظام Gamification</h4></div><p>برمجة نظام المهام: جمع قطع لإكمال المجلس العسيري. نظام إنجازات وتقدم مرئي.</p><div class="tools-row"><span class="tl">Quest System</span><span class="tl">Progress Tracking</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cgr">17</div><h4>حملة التوعية والدعوة</h4></div><p>إطلاق دعوة مشاركة لأهالي عسير عبر وسائل التواصل.</p><div class="tools-row"><span class="tl">Social Media</span><span class="tl">Tutorial Video</span></div></div>
+            </div>
+        </div>
+
+        <div class="rm-phase anim">
+            <div class="rm-dot cb"></div>
+            <div class="rm-head"><span class="rm-name">الاختبار والإطلاق</span><span class="rm-badge cb">اليوم 18 — 20</span></div>
+            <div class="rm-tasks">
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cb">18</div><h4>اختبار شامل</h4></div><p>اختبار الأداء على أجهزة مختلفة والتأكد من سلاسة التفاعل وجودة النماذج.</p><div class="tools-row"><span class="tl">QA Testing</span><span class="tl">Performance Profiling</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cb">19</div><h4>التحسين النهائي</h4></div><p>صقل التجربة، تحسين الإضاءة والمؤثرات، إعداد نسخة العرض.</p><div class="tools-row"><span class="tl">Polish Pass</span><span class="tl">Packaging</span></div></div>
+                <div class="rm-task"><div class="rm-task-head"><div class="day-b cb">20</div><h4>الإطلاق التجريبي 🚀</h4></div><p>نشر النسخة التجريبية وعرض المشروع على الزملاء وجمع الملاحظات.</p><div class="tools-row"><span class="tl">Demo Build</span><span class="tl">Feedback</span></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gantt -->
+    <div class="gantt-wrap anim">
+        <h3 class="gantt-title">📊 الجدول الزمني المرئي</h3>
+        <div class="scroll-hint">← اسحب للتصفح →</div>
+        <div class="gantt-scroll">
+            <div class="gantt-row"><div class="gl" style="font-weight:700;color:#aaa;">المهمة</div><div class="gh">1</div><div class="gh">2</div><div class="gh">3</div><div class="gh">4</div><div class="gh">5</div><div class="gh">6</div><div class="gh">7</div><div class="gh">8</div><div class="gh">9</div><div class="gh">10</div><div class="gh">11</div><div class="gh">12</div><div class="gh">13</div><div class="gh">14</div><div class="gh">15</div><div class="gh">16</div><div class="gh">17</div><div class="gh">18</div><div class="gh">19</div><div class="gh">20</div></div>
+            <div class="gantt-row"><div class="gl">تجهيز البيئة</div><div class="gc ar"></div><div class="gc ar"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">تصوير MVP</div><div class="gc"></div><div class="gc"></div><div class="gc ar"></div><div class="gc ar"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">مراجعة النماذج</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc ar"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">القاعة الرئيسية</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc ag"></div><div class="gc ag"></div><div class="gc ag"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">نظام التفاعل</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc ag"></div><div class="gc ag"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">الشرح الصوتي</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc ag"></div><div class="gc ag"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">منصة الاستقبال</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc agr"></div><div class="gc agr"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">Gamification</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc agr"></div><div class="gc agr"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">حملة التوعية</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc agr"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div></div>
+            <div class="gantt-row"><div class="gl">الاختبار والإطلاق</div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc"></div><div class="gc ab"></div><div class="gc ab"></div><div class="gc ab"></div></div>
+        </div>
+    </div>
+</section>
+<div class="divider"></div>
+
+<!-- Footer -->
+<footer>
+    <div class="ft-logo">🏛️ كرام الأرومة — المتحف الرقمي التراثي</div>
+    <p>مقترح من <strong style="color:var(--gold);">سعيد جهاش</strong> — مبادرة <strong style="color:#2ECC71;">اجاويد4</strong> · <strong style="color:#BB86FC;">بِكْسَلة</strong></p>
+    <p style="margin-top:8px;"><a href="https://i3j.io" target="_blank">i3j.io</a> &nbsp;·&nbsp; <a href="https://biqc.sa" target="_blank">biqc.sa</a></p>
+    <p style="margin-top:14px;font-size:0.75rem;color:#444;">حفظ التراث العسيري بتقنيات المستقبل</p>
+</footer>
+
+<script>
+const burger=document.getElementById('burger'),mm=document.getElementById('mobileMenu');
+burger.addEventListener('click',()=>{burger.classList.toggle('active');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
+function closeMenu(){burger.classList.remove('active');mm.classList.remove('open');document.body.style.overflow='';}
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('show');});},{threshold:0.06,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.anim').forEach(el=>obs.observe(el));
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',scrollY>40);});
+</script>
+</body>
+</html>
