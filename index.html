@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بِكسلة | من البكسل إلى الأصالة</title>
+    <meta name="description"
+        content="بِكسلة — نموذج وطني رائد لتحويل التراث غير المادي والمادي في منطقة عسير إلى تجربة رقمية تفاعلية قائمة على تقنيات الواقع الافتراضي والألعاب">
+    <!-- أيقونة الموقع (فافيكون) — استبدل بأيقونة بكسلة لاحقاً -->
+    <link rel="icon" type="image/png" href="images/og-preview.png">
+
+    <!-- ═══ بطاقة المعاينة عند مشاركة الرابط (Open Graph) ═══ -->
+    <!-- هذه الصورة تظهر عند مشاركة رابط الموقع في واتساب وتويتر وغيرها -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="بِكسلة — من البكسل إلى الأصالة">
+    <meta property="og:description"
+        content="مبادرة وطنية رائدة لتحويل التراث العسيري إلى تجربة رقمية تفاعلية عبر الواقع الافتراضي والألعاب">
+    <meta property="og:image" content="images/og-preview.png">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:locale" content="ar_SA">
+    <meta property="og:site_name" content="بِكسلة">
+
+    <!-- بطاقة تويتر -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="بِكسلة — من البكسل إلى الأصالة">
+    <meta name="twitter:description" content="مبادرة وطنية رائدة لتحويل التراث العسيري إلى تجربة رقمية تفاعلية">
+    <meta name="twitter:image" content="images/og-preview.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ═══ Particle Canvas Background ═══ -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- ═══ Side Navigation Dots ═══ -->
+    <nav class="side-nav" aria-label="التنقل الجانبي">
+        <a href="#hero" data-label="الرئيسية" class="active"></a>
+        <a href="#vision" data-label="الرؤية والرسالة"></a>
+        <a href="#objectives" data-label="الأهداف"></a>
+        <a href="#alignment" data-label="المواءمة الوطنية"></a>
+        <a href="#partners" data-label="الشركاء"></a>
+        <a href="#team" data-label="الفريق"></a>
+    </nav>
+
+    <!-- ═══ Top Navigation Bar ═══ -->
+    <nav class="top-nav" aria-label="التنقل العلوي">
+        <div class="logo">بِكسلة</div>
+        <ul class="nav-links">
+            <li><a href="#vision">الرؤية</a></li>
+            <li><a href="#objectives">الأهداف</a></li>
+            <li><a href="#alignment">المواءمة</a></li>
+            <li><a href="#partners">الشركاء</a></li>
+            <li><a href="#team">الفريق</a></li>
+        </ul>
+    </nav>
+
+    <!-- ══════════════════════════════════════
+       SECTION 1: HERO
+       ══════════════════════════════════════ -->
+    <section id="hero" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                بِكسلة — من البكسل إلى الأصالة
+            </div>
+            <h1 class="hero-title">
+                <span class="highlight">بِكسلة</span>
+                <span class="line2">حين تروي البكسلات .. حكايا الأجداد</span>
+            </h1>
+            <p class="hero-catchphrase">جود بكسلة .. من .. أجاويد أربعة</p>
+            <p class="hero-subtitle">
+                نصنع نموذجًا وطنيًا رائدًا لتحويل التراث غير المادي والمادي في منطقة عسير إلى تجربة رقمية تفاعلية قائمة
+                على تقنيات الواقع الافتراضي والألعاب
+            </p>
+            <div class="hero-cta">
+                <button class="btn-primary"
+                    onclick="document.getElementById('vision').scrollIntoView({behavior:'smooth'})">اكتشف
+                    المبادرة</button>
+                <button class="btn-outline"
+                    onclick="document.getElementById('partners').scrollIntoView({behavior:'smooth'})">الشركاء
+                    والداعمون</button>
+            </div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <span>استكشف</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       STATS DIVIDER
+       ══════════════════════════════════════ -->
+    <div class="stats-divider">
+        <div class="stats-grid">
+            <div class="stat-item reveal">
+                <div class="stat-number" data-target="5" data-suffix="+">٠</div>
+                <div class="stat-label">شركاء استراتيجيون</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-1">
+                <div class="stat-number" data-target="4">٠</div>
+                <div class="stat-label">محاور أهداف</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-2">
+                <div class="stat-number" data-target="3">٠</div>
+                <div class="stat-label">استراتيجيات وطنية</div>
+            </div>
+            <div class="stat-item reveal reveal-delay-3">
+                <div class="stat-number" data-target="5">٠</div>
+                <div class="stat-label">أعضاء فريق</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+       SECTION 2: VISION & MISSION
+       ══════════════════════════════════════ -->
+    <section id="vision" class="section">
+        <div class="reveal">
+            <span class="section-label">الرؤية والرسالة</span>
+            <h2 class="section-title">نحو مستقبل رقمي <span class="gold">للتراث العسيري</span></h2>
+            <p class="section-desc">
+                نؤمن بأن التراث ليس ماضيًا فحسب، بل هو أساس متين لبناء مستقبل مبتكر يربط الأجيال بهويتهم الثقافية عبر
+                أحدث التقنيات.
+            </p>
+        </div>
+
+        <div class="vision-mission-grid">
+            <!-- Vision Card -->
+            <div class="vm-card vision-card reveal reveal-delay-1">
+                <div class="vm-card-icon"><i class="fa-solid fa-eye"></i></div>
+                <h3 class="vm-card-title">الرؤية</h3>
+                <p class="vm-card-text">
+                    أن نصنع نموذجًا وطنيًا رائدًا لتحويل التراث غير المادي والمادي في منطقة عسير إلى تجربة رقمية تفاعلية
+                    قائمة على تقنيات الواقع الافتراضي والألعاب، بما يعزز الهوية الثقافية ويسهم في الاقتصاد الإبداعي وفق
+                    مستهدفات رؤية المملكة 2030.
+                </p>
+                <span class="quote-mark">"</span>
+            </div>
+
+            <!-- Mission Card -->
+            <div class="vm-card mission-card reveal reveal-delay-2">
+                <div class="vm-card-icon"><i class="fa-solid fa-rocket"></i></div>
+                <h3 class="vm-card-title">الرسالة</h3>
+                <p class="vm-card-text">
+                    نُمكّن المجتمع المحلي في عسير من توثيق مقتنياته التراثية وقصصها، وتحويلها إلى معرض رقمي تفاعلي ثم
+                    إلى لعبة تعليمية ثقافية ثلاثية الأبعاد، تتيح للأجيال استكشاف الحياة القديمة بأسلوب معاصر، وتربط
+                    الإرث بالابتكار عبر توظيف التقنيات الحديثة وصناعة الألعاب.
+                </p>
+                <span class="quote-mark">"</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       SECTION 3: STRATEGIC OBJECTIVES
+       ══════════════════════════════════════ -->
+    <section id="objectives" class="section">
+        <div class="reveal">
+            <span class="section-label">الأهداف الاستراتيجية</span>
+            <h2 class="section-title">أربعة محاور <span class="gold">لتحقيق الأثر</span></h2>
+            <p class="section-desc">تتضافر أهدافنا الثقافية والتنموية والتعليمية والسياحية لخلق أثر مستدام يخدم المجتمع
+                والوطن.</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="objectives-tabs reveal reveal-delay-1">
+            <button class="obj-tab active" data-target="panel-cultural">
+                <span class="tab-icon"><i class="fa-solid fa-landmark"></i></span>
+                أهداف ثقافية
+            </button>
+            <button class="obj-tab" data-target="panel-dev">
+                <span class="tab-icon"><i class="fa-solid fa-chart-line"></i></span>
+                أهداف تنموية
+            </button>
+            <button class="obj-tab" data-target="panel-edu">
+                <span class="tab-icon"><i class="fa-solid fa-graduation-cap"></i></span>
+                أهداف تعليمية
+            </button>
+            <button class="obj-tab" data-target="panel-tourism">
+                <span class="tab-icon"><i class="fa-solid fa-mountain-sun"></i></span>
+                أهداف سياحية
+            </button>
+        </div>
+
+        <!-- Cultural Panel -->
+        <div id="panel-cultural" class="objectives-panel panel-cultural active">
+            <div class="obj-list">
+                <div class="obj-item reveal">
+                    <div class="obj-item-num">١</div>
+                    <p class="obj-item-text"><strong>توثيق القطع التراثية</strong> المملوكة للأهالي رقميًا عبر تقنية
+                        المسح ثلاثي الأبعاد (3D Scan) والأرشفة القصصية الشاملة.</p>
+                </div>
+                <div class="obj-item reveal reveal-delay-1">
+                    <div class="obj-item-num">٢</div>
+                    <p class="obj-item-text"><strong>حفظ التراث العسيري غير المادي</strong> من الحكايات والعادات وأنماط
+                        الحياة التقليدية التي تشكل الهوية الثقافية للمنطقة.</p>
+                </div>
+                <div class="obj-item reveal reveal-delay-2">
+                    <div class="obj-item-num">٣</div>
+                    <p class="obj-item-text"><strong>تعزيز الاعتزاز بالهوية المحلية</strong> وربطها بالسياق الوطني لتكون
+                        جزءًا أصيلاً من النسيج الثقافي السعودي.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Development Panel -->
+        <div id="panel-dev" class="objectives-panel panel-dev">
+            <div class="obj-list">
+                <div class="obj-item">
+                    <div class="obj-item-num">١</div>
+                    <p class="obj-item-text"><strong>دعم قطاع الاقتصاد الإبداعي</strong> كأحد روافد تنويع الاقتصاد
+                        الوطني وفق مستهدفات رؤية المملكة 2030.</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٢</div>
+                    <p class="obj-item-text"><strong>تمكين الشباب</strong> في مجالات النمذجة ثلاثية الأبعاد، والسرد
+                        القصصي الرقمي، وتصميم الألعاب التفاعلية.</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٣</div>
+                    <p class="obj-item-text"><strong>خلق فرص عمل ومشاريع ناشئة</strong> في قطاع التقنية الثقافية
+                        (CulturalTech) لدعم الاقتصاد المعرفي.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Education Panel -->
+        <div id="panel-edu" class="objectives-panel panel-edu">
+            <div class="obj-list">
+                <div class="obj-item">
+                    <div class="obj-item-num">١</div>
+                    <p class="obj-item-text"><strong>تقديم محتوى تفاعلي غامر</strong> يعزز تعلم التاريخ بطريقة مبتكرة
+                        عبر تقنيات التعلم الغامر (Immersive Learning).</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٢</div>
+                    <p class="obj-item-text"><strong>تحويل المعرفة التراثية إلى تجربة لعب تعليمية</strong> (Edutainment)
+                        تجمع بين المتعة والفائدة للأجيال الجديدة.</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٣</div>
+                    <p class="obj-item-text"><strong>دعم المدارس والجامعات</strong> بمحتوى رقمي محلي أصيل يُثري المناهج
+                        الدراسية ويربط الطلاب بتراثهم.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tourism Panel -->
+        <div id="panel-tourism" class="objectives-panel panel-tourism">
+            <div class="obj-list">
+                <div class="obj-item">
+                    <div class="obj-item-num">١</div>
+                    <p class="obj-item-text"><strong>تقديم تجربة رقمية موازية</strong> للسياحة الميدانية في عسير تُتيح
+                        للزوار استكشاف المنطقة افتراضيًا.</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٢</div>
+                    <p class="obj-item-text"><strong>إبراز القرى التراثية والعمارة العسيرية</strong> داخل بيئة افتراضية
+                        ثلاثية الأبعاد بدقة عالية.</p>
+                </div>
+                <div class="obj-item">
+                    <div class="obj-item-num">٣</div>
+                    <p class="obj-item-text"><strong>تعزيز صورة عسير كوجهة ثقافية مبتكرة</strong> تجمع بين الأصالة
+                        والتقنية وفق استراتيجية قمم وشيم.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       SECTION 4: NATIONAL ALIGNMENT
+       ══════════════════════════════════════ -->
+    <section id="alignment" class="section">
+        <div class="reveal">
+            <span class="section-label">المواءمة الوطنية</span>
+            <h2 class="section-title">متوائمون مع <span class="gold">الاستراتيجيات الوطنية</span></h2>
+            <p class="section-desc">تتكامل المبادرة مع ثلاث استراتيجيات وطنية كبرى لضمان الأثر المستدام والشمولي.</p>
+        </div>
+
+        <div class="alignment-grid">
+            <!-- Vision 2030 -->
+            <div class="align-card reveal reveal-delay-1">
+                <span class="align-icon"><i class="fa-solid fa-eye"></i></span>
+                <h3 class="align-card-title">رؤية المملكة 2030</h3>
+                <ul class="align-list">
+                    <li>دعم جودة الحياة وتعزيز نمط حياة صحي ومتوازن</li>
+                    <li>تمكين القطاع الثقافي وتعزيز مكانته</li>
+                    <li>تنمية الاقتصاد الإبداعي والرقمي كرافد اقتصادي</li>
+                </ul>
+            </div>
+
+            <!-- Gaming Strategy -->
+            <div class="align-card reveal reveal-delay-2">
+                <span class="align-icon"><i class="fa-solid fa-gamepad"></i></span>
+                <h3 class="align-card-title">الاستراتيجية الوطنية للألعاب</h3>
+                <ul class="align-list">
+                    <li>تطوير محتوى ألعاب سعودي الهوية والطابع</li>
+                    <li>بناء قدرات محلية متميزة في تصميم الألعاب</li>
+                    <li>جعل المملكة مركزًا إقليميًا لصناعة الألعاب</li>
+                </ul>
+            </div>
+
+            <!-- Qimam & Shiyam -->
+            <div class="align-card reveal reveal-delay-3">
+                <span class="align-icon"><i class="fa-solid fa-mountain"></i></span>
+                <h3 class="align-card-title">استراتيجية قمم وشيم – عسير</h3>
+                <ul class="align-list">
+                    <li>إبراز هوية عسير الثقافية والطبيعية الفريدة</li>
+                    <li>الاستثمار في الإنسان والمكان</li>
+                    <li>تحويل الموروث إلى عنصر جذب مستدام</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       SECTION 5: PARTNERS
+       ══════════════════════════════════════ -->
+    <section id="partners" class="section">
+        <div class="reveal">
+            <span class="section-label">الشركاء والداعمون</span>
+            <h2 class="section-title">شبكة شراكات <span class="gold">متكاملة</span></h2>
+            <p class="section-desc">نبني منظومة شراكات استراتيجية تضم جهات وطنية وإقليمية وتقنية ومجتمعية لتحقيق أهداف
+                المبادرة.</p>
+        </div>
+
+        <!-- Partner Tabs -->
+        <div class="partners-tabs reveal reveal-delay-1">
+            <button class="partner-tab active" data-target="p-strategic">استراتيجيون</button>
+            <button class="partner-tab" data-target="p-regional">إقليميون</button>
+            <button class="partner-tab" data-target="p-tech">تقنيون</button>
+            <button class="partner-tab" data-target="p-community">مجتمعيون</button>
+            <button class="partner-tab" data-target="p-sponsors">رعاة</button>
+        </div>
+
+        <!-- Strategic Partners -->
+        <div id="p-strategic" class="partners-panel active">
+            <div class="partners-grid">
+                <div class="partner-card reveal">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-landmark-dome"></i></div>
+                        <h4 class="partner-card-name">وزارة الثقافة</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>دعم المحتوى التراثي والاعتماد الرسمي</li>
+                        <li>ربط المبادرة ببرامج التراث غير المادي</li>
+                        <li>إمكانية التمويل عبر الصناديق الثقافية</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card reveal reveal-delay-1">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-scroll"></i></div>
+                        <h4 class="partner-card-name">هيئة التراث</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>اعتماد آلية التوثيق الرسمية</li>
+                        <li>إشراف علمي على الأرشفة والتصنيف</li>
+                        <li>توفير خبراء في التاريخ الشفهي</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card reveal reveal-delay-2">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-gamepad"></i></div>
+                        <h4 class="partner-card-name">الاتحاد السعودي للرياضات الإلكترونية</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>دعم تحويل المشروع إلى لعبة</li>
+                        <li>ربطه بالاستراتيجية الوطنية للألعاب</li>
+                        <li>احتضان المواهب الشابة</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card reveal reveal-delay-3">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-coins"></i></div>
+                        <h4 class="partner-card-name">صندوق التنمية الثقافي</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>تمويل مراحل التطوير المختلفة</li>
+                        <li>دعم الاستدامة المالية للمبادرة</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Regional Partners -->
+        <div id="p-regional" class="partners-panel">
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-mountain"></i></div>
+                        <h4 class="partner-card-name">هيئة تطوير منطقة عسير</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>مواءمة المشروع مع استراتيجية قمم وشيم</li>
+                        <li>إدراجه ضمن المبادرات السياحية</li>
+                        <li>دعم لوجستي وتسويقي</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-university"></i></div>
+                        <h4 class="partner-card-name">جامعة الملك خالد</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>إشراك طلاب التصميم والبرمجة في المشروع</li>
+                        <li>دعم البحث العلمي المرتبط بالتراث الرقمي</li>
+                        <li>احتضان المشروع كمختبر ابتكار</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-palette"></i></div>
+                        <h4 class="partner-card-name">جمعية الثقافة والفنون</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>ربط المشروع بالفنانين والحرفيين</li>
+                        <li>دعم الفعاليات المصاحبة</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tech Partners -->
+        <div id="p-tech" class="partners-panel">
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-chess-rook"></i></div>
+                        <h4 class="partner-card-name">Savvy Games Group</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>شريك استثماري استراتيجي</li>
+                        <li>توجيه في صناعة الألعاب العالمية</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-brands fa-unity"></i></div>
+                        <h4 class="partner-card-name">Unity Technologies</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>محرك تطوير اللعبة الأساسي</li>
+                        <li>برامج دعم تعليمية للطلاب</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-cube"></i></div>
+                        <h4 class="partner-card-name">Epic Games</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>استخدام Unreal Engine للرسوم المتقدمة</li>
+                        <li>دعم تقنيات الواقع الافتراضي</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Community Partners -->
+        <div id="p-community" class="partners-panel">
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-book-open"></i></div>
+                        <h4 class="partner-card-name">كبار السن والرواة</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>رواة القصص والحكايات في قرى عسير</li>
+                        <li>مصدر أساسي للمعرفة التراثية الشفهية</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-handshake"></i></div>
+                        <h4 class="partner-card-name">الجمعيات الأهلية</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>تنسيق ميداني مع المجتمع المحلي</li>
+                        <li>دعم أنشطة التوعية والمشاركة</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-school"></i></div>
+                        <h4 class="partner-card-name">المدارس</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>مستخدمون أوائل للنسخة التعليمية</li>
+                        <li>تجربة المحتوى التفاعلي مع الطلاب</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-hands"></i></div>
+                        <h4 class="partner-card-name">الحرفيون المحليون</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>توثيق الحرف والصناعات التقليدية</li>
+                        <li>نقل المهارات عبر المنصة الرقمية</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sponsors -->
+        <div id="p-sponsors" class="partners-panel">
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-tower-cell"></i></div>
+                        <h4 class="partner-card-name">شركات الاتصالات</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>دعم تقني وبنية تحتية رقمية</li>
+                        <li>رعاية تقنية للمنصة</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-laptop-code"></i></div>
+                        <h4 class="partner-card-name">شركات التقنية المحلية</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>تطوير وصيانة المنصة الرقمية</li>
+                        <li>دعم التحول الرقمي للمبادرة</li>
+                    </ul>
+                </div>
+
+                <div class="partner-card">
+                    <div class="partner-card-header">
+                        <div class="partner-icon-wrapper"><i class="fa-solid fa-building-columns"></i></div>
+                        <h4 class="partner-card-name">البنوك الداعمة</h4>
+                    </div>
+                    <ul class="partner-card-roles">
+                        <li>رعاية عبر برامج المسؤولية الاجتماعية</li>
+                        <li>تمويل الفعاليات والأنشطة</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════
+       SECTION 6: TEAM
+       ══════════════════════════════════════ -->
+    <section id="team" class="section">
+        <div class="reveal">
+            <span class="section-label">فريق المبادرة</span>
+            <h2 class="section-title">خمسة أدوار <span class="gold">لصناعة الأثر</span></h2>
+            <p class="section-desc">فريق متكامل من الكفاءات المتنوعة يعمل بشغف لتحويل الرؤية إلى واقع ملموس.</p>
+        </div>
+
+        <div class="team-grid">
+            <!-- ═══ عضو 1: محمد آل عطفة ═══ -->
+            <!-- لاستبدال الصورة: ضع صورة محمد في مجلد images باسم mohammed.jpg -->
+            <div class="team-card reveal">
+                <div class="team-avatar">
+                    <img src="https://ui-avatars.com/api/?name=+&background=1a1a3a&color=d4a843&size=160&font-size=0.4&bold=true"
+                        alt="صورة محمد آل عطفة">
+                </div>
+                <h4 class="team-name">محمد آل عطفة</h4>
+                <p class="team-subtitle">ناشط في القطاع التراثي والمتحفي — ماجستير إدارة المتاحف من المعهد الملكي ورث
+                </p>
+                <span class="team-role">قائد المبادرة</span>
+            </div>
+
+            <!-- ═══ عضو 2: سعيد آل جهاش ═══ -->
+            <!-- لاستبدال الصورة: ضع صورة سعيد في مجلد images باسم saeed.jpg -->
+            <div class="team-card reveal reveal-delay-1">
+                <div class="team-avatar">
+                    <img src="https://ui-avatars.com/api/?name=&background=1a1a3a&color=2dd4bf&size=160&font-size=0.4&bold=true"
+                        alt="صورة سعيد آل جهاش">
+                </div>
+                <h4 class="team-name">سعيد آل جهاش</h4>
+                <p class="team-subtitle">مطور ألعاب مستقل مرخص من الهيئة العامة لتنظيم الإعلام</p>
+                <span class="team-role">المهندس التقني</span>
+            </div>
+
+            <!-- ═══ عضو 3: محمد واصل ═══ -->
+            <!-- لاستبدال الصورة: ضع صورة محمد واصل في مجلد images باسم wasel.jpg -->
+            <div class="team-card reveal reveal-delay-2">
+                <div class="team-avatar">
+                    <img src="https://ui-avatars.com/api/?name=+&background=1a1a3a&color=a78bfa&size=160&font-size=0.4&bold=true"
+                        alt="صورة محمد واصل">
+                </div>
+                <h4 class="team-name">محمد واصل</h4>
+                <span class="team-role">الأخصائي الإعلامي</span>
+            </div>
+
+            <!-- ═══ عضو 4: أبعاد البريدي ═══ -->
+            <!-- لاستبدال الصورة: ضع صورة أبعاد في مجلد images باسم abaad.jpg -->
+            <div class="team-card reveal reveal-delay-3">
+                <div class="team-avatar">
+                    <img src="https://ui-avatars.com/api/?name=+&background=1a1a3a&color=fb923c&size=160&font-size=0.4&bold=true"
+                        alt="صورة أبعاد البريدي">
+                </div>
+                <h4 class="team-name">أبعاد البريدي</h4>
+                <span class="team-role">أخصائي إرشاد تراثي</span>
+            </div>
+
+            <!-- ═══ عضو 5: سوزان الحفظي ═══ -->
+            <!-- لاستبدال الصورة: ضع صورة سوزان في مجلد images باسم suzan.jpg -->
+            <div class="team-card reveal reveal-delay-4">
+                <div class="team-avatar">
+                    <img src="https://ui-avatars.com/api/?name=+&background=1a1a3a&color=f472b6&size=160&font-size=0.4&bold=true"
+                        alt="صورة سوزان الحفظي">
+                </div>
+                <h4 class="team-name">سوزان الحفظي</h4>
+                <span class="team-role">أخصائي إرشاد تراثي</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ Footer ═══ -->
+    <footer class="footer">
+        <div class="footer-logo">بِكسلة</div>
+        <p class="footer-tagline">من البكسل إلى الأصالة — مبادرة وطنية رائدة لرقمنة تراث عسير</p>
+        <div class="footer-divider"></div>
+        <p class="footer-copy">© ٢٠٢٦ بِكسلة. جميع الحقوق محفوظة.</p>
+        <p class="footer-dev">تطوير <a href="https://i3j.io" target="_blank" rel="noopener">سعيد جهاش</a> — i3j.io</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
