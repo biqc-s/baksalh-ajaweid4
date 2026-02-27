@@ -4,12 +4,181 @@
    ═══════════════════════════════════════════════════ */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initFractalIntro();   // ← شجرة الفراكتال الافتتاحية أولاً
   initParticles();
   initRevealAnimations();
   initNavigation();
   initTabs();
   initCounters();
 });
+
+/* ══════════════════════════════════════════════════════
+   FRACTAL TREE INTRO — شجرة فراكتالية تفاعلية
+   مستوحاة من كود Python/Pygame بألوان قوس قزح HSV
+   تعمل باللمس على الجوال والماوس على سطح المكتب
+   ══════════════════════════════════════════════════════ */
+function initFractalIntro() {
+  const intro  = document.getElementById('fractalIntro');
+  const canvas = document.getElementById('fractalCanvas');
+  if (!intro || !canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width, height, animId;
+  let dismissed   = false;
+  let interacting = false;     // هل المستخدم يتفاعل؟
+  let hueOffset   = 0;         // دوران الألوان التلقائي
+
+  // موضع المؤشر (مُطبَّع 0-1)
+  let pointer = { x: 0.5, y: 0.45 };
+
+  /* ── تغيير حجم الكانفاس ── */
+  function resize() {
+    width  = canvas.width  = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  /* ── تحويل HSV → RGB (مثل pygame Color.hsva) ── */
+  function hsvToRgb(h, s, v) {
+    h = ((h % 360) + 360) % 360;
+    s /= 100; v /= 100;
+    const i = Math.floor(h / 60);
+    const f = h / 60 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+    let r, g, b;
+    switch (i % 6) {
+      case 0: r = v; g = t; b = p; break;
+      case 1: r = q; g = v; b = p; break;
+      case 2: r = p; g = v; b = t; break;
+      case 3: r = p; g = q; b = v; break;
+      case 4: r = t; g = p; b = v; break;
+      case 5: r = v; g = p; b = q; break;
+    }
+    return `rgb(${Math.round(r*255)},${Math.round(g*255)},${Math.round(b*255)})`;
+  }
+
+  /* ── رسم الشجرة الفراكتالية (ترجمة مباشرة من كود Python) ──
+     x,y        → نقطة البداية
+     angle      → زاوية الفرع (راديان)
+     depth      → عمق التكرار (10 مستويات)
+     length     → طول الفرع الحالي
+     hue        → درجة اللون (HSV 0-360)
+     spread     → زاوية التفرع (تتحكم بها حركة X)
+  */
+  function drawTree(x, y, angle, depth, length, hue, spread) {
+    if (depth === 0 || length < 1) return;
+
+    const x2 = x + Math.cos(angle) * length;
+    const y2 = y - Math.sin(angle) * length;
+
+    ctx.beginPath();
+    ctx.strokeStyle = hsvToRgb(hue, 100, 100);
+    ctx.lineWidth   = Math.max(0.5, depth * 0.65);
+    ctx.lineCap     = 'round';
+    ctx.moveTo(x, y);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    const newLen = length * 0.75;
+    drawTree(x2, y2, angle - spread, depth - 1, newLen, hue + 15, spread);
+    drawTree(x2, y2, angle + spread, depth - 1, newLen, hue + 15, spread);
+  }
+
+  /* ── حلقة الرسم ── */
+  function animate() {
+    if (dismissed) return;
+    animId = requestAnimationFrame(animate);
+
+    // خلفية سوداء شبه شفافة → تعطي ذيلاً متلاشياً للخطوط
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.18)';
+    ctx.fillRect(0, 0, width, height);
+
+    const px = pointer.x * width;
+    const py = pointer.y * height;
+
+    // زاوية التفرع تعتمد على X (مثل mouse_angle في Python)
+    const spreadAngle = pointer.x * Math.PI;
+
+    // دورة الألوان تعتمد على Y + انزياح تلقائي
+    const startHue = pointer.y * 360 + hueOffset;
+
+    // طول البداية يعتمد على Y (مثل start_len في Python)
+    const startLen = (height / 4.5) * (pointer.y + 0.5);
+
+    // ارسم من أسفل المنتصف نحو الأعلى (Math.PI/2 = 90°)
+    drawTree(width / 2, height - 50, Math.PI / 2, 10, startLen, startHue, spreadAngle);
+
+    // تحريك اللون تلقائياً حتى حين لا يتفاعل المستخدم
+    hueOffset += 0.6;
+  }
+
+  /* ── إخفاء الشاشة الافتتاحية ── */
+  function dismiss() {
+    if (dismissed) return;
+    dismissed = true;
+    intro.classList.add('fractal-hidden');
+    document.body.classList.remove('fractal-active');
+    cancelAnimationFrame(animId);
+    setTimeout(() => intro.remove(), 1300);
+  }
+
+  /* ── أحداث اللمس (جوال) ── */
+  function onTouchMove(e) {
+    e.preventDefault();
+    interacting = true;
+    const touch = e.touches[0];
+    if (touch) {
+      pointer.x = touch.clientX / width;
+      pointer.y = touch.clientY / height;
+    }
+  }
+
+  function onTouchStart(e) {
+    e.preventDefault();
+    interacting = true;
+    const touch = e.touches[0];
+    if (touch) {
+      pointer.x = touch.clientX / width;
+      pointer.y = touch.clientY / height;
+    }
+  }
+
+  function onTouchEnd(e) {
+    e.preventDefault();
+    // نمسه مرة واحدة سريعة = إغلاق، إذا كانت قصيرة
+    const target = e.target;
+    if (target.classList.contains('fractal-hint-skip') || !interacting) {
+      dismiss();
+    }
+    interacting = false;
+  }
+
+  /* ── أحداث الماوس (سطح المكتب) ── */
+  function onMouseMove(e) {
+    interacting = true;
+    pointer.x = e.clientX / width;
+    pointer.y = e.clientY / height;
+  }
+
+  /* ── ربط الأحداث ── */
+  intro.addEventListener('touchmove',  onTouchMove,  { passive: false });
+  intro.addEventListener('touchstart', onTouchStart, { passive: false });
+  intro.addEventListener('touchend',   onTouchEnd,   { passive: false });
+  intro.addEventListener('mousemove',  onMouseMove);
+  intro.addEventListener('click',      dismiss);
+
+  /* ── منع تمرير الصفحة أثناء الشاشة ── */
+  document.body.classList.add('fractal-active');
+
+  /* ── إغلاق تلقائي بعد 9 ثوان ── */
+  setTimeout(dismiss, 9000);
+
+  /* ── ابدأ الرسم ── */
+  animate();
+}
 
 /* ══════════════════════════════════════
    PARTICLE CANVAS — Asiri Geometric Motifs

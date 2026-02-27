@@ -1343,3 +1343,161 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* ══════════════════════════════════════════════════════
+   FRACTAL TREE INTRO SCREEN
+   شجرة فراكتالية تفاعلية — مستوحاة من كود Python/Pygame
+   ══════════════════════════════════════════════════════ */
+
+.fractal-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+.fractal-intro.fractal-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+#fractalCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Logo & Tagline overlay ── */
+.fractal-ui {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+  padding-top: clamp(40px, 8vh, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.fractal-logo {
+  font-family: var(--font-heading);
+  font-size: clamp(2.8rem, 12vw, 7rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #f5d77a, #c49234, #a8792b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  opacity: 0;
+  animation: fractalReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+  text-shadow: none;
+  /* Subtle glow effect behind the gradient text */
+  filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.35));
+}
+
+.fractal-tagline {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 3.5vw, 1.3rem);
+  color: rgba(240, 236, 228, 0.65);
+  letter-spacing: 0.15em;
+  opacity: 0;
+  animation: fractalReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.9s forwards;
+}
+
+/* ── Bottom hint ── */
+.fractal-hint {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding-bottom: clamp(28px, 6vh, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  opacity: 0;
+  animation: fractalReveal 1s ease 2s forwards;
+}
+
+.fractal-hint-finger {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  color: rgba(245, 215, 122, 0.8);
+  animation: fractalPulse 2s ease-in-out infinite;
+}
+
+.fractal-hint-move {
+  font-family: var(--font-body);
+  font-size: clamp(0.78rem, 2.5vw, 0.95rem);
+  color: rgba(240, 236, 228, 0.55);
+}
+
+.fractal-hint-skip {
+  background: none;
+  border: 1px solid rgba(245, 215, 122, 0.35);
+  border-radius: 50px;
+  padding: 8px 22px;
+  font-family: var(--font-body);
+  font-size: clamp(0.75rem, 2.2vw, 0.85rem);
+  color: rgba(245, 215, 122, 0.75);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 4px;
+  letter-spacing: 0.05em;
+}
+
+.fractal-hint-skip:hover,
+.fractal-hint-skip:focus-visible {
+  background: rgba(245, 215, 122, 0.12);
+  border-color: rgba(245, 215, 122, 0.7);
+  color: #f5d77a;
+  outline: none;
+}
+
+/* ── Keyframes ── */
+@keyframes fractalReveal {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fractalPulse {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1);
+    opacity: 1;
+  }
+}
+
+/* ── Prevent body scroll while intro is visible ── */
+body.fractal-active {
+  overflow: hidden;
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 480px) {
+  .fractal-hint-finger {
+    font-size: 2rem;
+  }
+}
