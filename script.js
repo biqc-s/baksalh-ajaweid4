@@ -10,7 +10,27 @@ document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initTabs();
   initCounters();
+  initDatabaseSearch();
 });
+
+/* ══════════════════════════════════════════════════════
+   DATABASE SEARCH — بحث في قاعدة الأعمال الفنية
+   ══════════════════════════════════════════════════════ */
+function performSearch() {
+  const input = document.getElementById('dbSearchInput');
+  const query = input ? input.value.trim() : '';
+  const base = 'https://bixsrsh.i3j.io/';
+  const url = query ? `${base}?q=${encodeURIComponent(query)}` : base;
+  window.open(url, '_blank', 'noopener,noreferrer');
+}
+
+function initDatabaseSearch() {
+  const input = document.getElementById('dbSearchInput');
+  if (!input) return;
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') performSearch();
+  });
+}
 
 /* ══════════════════════════════════════════════════════
    FRACTAL TREE INTRO — شجرة فراكتالية تفاعلية
