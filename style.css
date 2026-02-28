@@ -229,6 +229,50 @@ body {
   width: 100%;
 }
 
+/* ── Hamburger button ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 7px 8px;
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+
+.nav-hamburger span {
+  display: block;
+  height: 1.5px;
+  background: var(--text-secondary);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+.nav-hamburger:hover,
+.nav-hamburger.is-active {
+  border-color: var(--purple-400);
+}
+
+.nav-hamburger.is-active span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+
+.nav-hamburger.is-active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.nav-hamburger.is-active span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
 /* ══════════════════════════════════════
    SECTION: HERO
    ══════════════════════════════════════ */
@@ -1410,8 +1454,49 @@ body {
     padding: 12px 20px;
   }
 
+  .nav-hamburger {
+    display: flex;
+  }
+
+  /* تحويل nav-links إلى درج منسحب بدل إخفاءها */
   .top-nav .nav-links {
-    display: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 18, 0.97);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-glass);
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                padding 0.35s ease;
+    list-style: none;
+  }
+
+  .top-nav .nav-links.nav-open {
+    max-height: 400px;
+    padding: 8px 0;
+  }
+
+  .top-nav .nav-links li {
+    width: 100%;
+  }
+
+  .top-nav .nav-links a {
+    display: block;
+    padding: 14px 24px;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--border-glass);
+  }
+
+  .top-nav .nav-links li:last-child a {
+    border-bottom: none;
   }
 
   .section {
@@ -1740,4 +1825,30 @@ body.fractal-active {
 .hero-content {
   position: relative;
   z-index: 2;
+}
+
+/* ── Team tags (مهارات وتراخيص إضافية) ── */
+.team-tags {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+.team-tag {
+  font-size: 0.72rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--text-muted);
+  border: 1px solid rgba(139, 92, 246, 0.18);
+  font-family: var(--font-body);
+  white-space: nowrap;
+  transition: var(--transition-fast);
+}
+
+.team-tag:hover {
+  background: rgba(139, 92, 246, 0.15);
+  color: var(--purple-400);
 }
