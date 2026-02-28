@@ -37,6 +37,32 @@
 
 <body>
 
+    <!-- ═══ PIN Lock Screen ═══ -->
+    <div id="pinLock" class="pin-lock" role="dialog" aria-label="شاشة الدخول">
+        <div class="pin-lock-inner">
+            <div class="pin-lock-logo">بِكسلة</div>
+            <p class="pin-lock-hint">أدخل رمز الدخول</p>
+            <div class="pin-dots" id="pinDots">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+            </div>
+            <div class="pin-pad">
+                <button class="pin-btn" data-n="1">١</button>
+                <button class="pin-btn" data-n="2">٢</button>
+                <button class="pin-btn" data-n="3">٣</button>
+                <button class="pin-btn" data-n="4">٤</button>
+                <button class="pin-btn" data-n="5">٥</button>
+                <button class="pin-btn" data-n="6">٦</button>
+                <button class="pin-btn" data-n="7">٧</button>
+                <button class="pin-btn" data-n="8">٨</button>
+                <button class="pin-btn" data-n="9">٩</button>
+                <button class="pin-btn pin-del" id="pinDel" aria-label="حذف">⌫</button>
+                <button class="pin-btn" data-n="0">٠</button>
+                <span class="pin-btn-empty"></span>
+            </div>
+        </div>
+    </div>
+
     <!-- ═══ Fractal Tree Intro Screen ═══ -->
     <div id="fractalIntro" class="fractal-intro" role="dialog" aria-label="شاشة ترحيبية تفاعلية">
         <canvas id="fractalCanvas"></canvas>
