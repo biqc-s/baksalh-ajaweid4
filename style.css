@@ -1852,3 +1852,138 @@ body.fractal-active {
   background: rgba(139, 92, 246, 0.15);
   color: var(--purple-400);
 }
+
+/* ══════════════════════════════════════════════════════
+   PIN LOCK SCREEN — شاشة رمز الدخول
+   ══════════════════════════════════════════════════════ */
+
+.pin-lock {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pin-lock.unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pin-lock-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  padding: 40px 20px;
+}
+
+.pin-lock-logo {
+  font-family: var(--font-decorative);
+  font-size: clamp(3rem, 10vw, 5.5rem);
+  font-weight: 700;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.pin-lock-hint {
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+/* نقاط المؤشر */
+.pin-dots {
+  display: flex;
+  gap: 14px;
+}
+
+.pin-dots span {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(167, 139, 250, 0.45);
+  background: transparent;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.pin-dots span.filled {
+  background: var(--purple-400);
+  border-color: var(--purple-400);
+}
+
+.pin-dots span.error {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+@keyframes pinShake {
+  0%, 100% { transform: translateX(0); }
+  18%       { transform: translateX(-11px); }
+  36%       { transform: translateX(11px); }
+  54%       { transform: translateX(-7px); }
+  72%       { transform: translateX(7px); }
+}
+
+.pin-dots.shake {
+  animation: pinShake 0.45s ease;
+}
+
+/* لوحة الأرقام */
+.pin-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.pin-btn {
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-glass);
+  background: var(--bg-glass);
+  color: var(--text-primary);
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pin-btn:hover {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: var(--purple-400);
+}
+
+.pin-btn:active {
+  transform: scale(0.9);
+  background: rgba(139, 92, 246, 0.3);
+}
+
+.pin-del {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+}
+
+.pin-del:hover {
+  color: var(--text-primary);
+}
+
+.pin-btn-empty {
+  width: 74px;
+  height: 74px;
+}

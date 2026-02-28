@@ -3,8 +3,74 @@
    Interactive Scripts
    ═══════════════════════════════════════════════════ */
 
+/* ══════════════════════════════════════════════════════
+   PIN LOCK — قفل الدخول بالرمز السري
+   ══════════════════════════════════════════════════════ */
+function initPinLock() {
+  const CORRECT = '19961417';
+  const lock    = document.getElementById('pinLock');
+  const dotsEl  = document.getElementById('pinDots');
+  const dots    = dotsEl.querySelectorAll('span');
+  let entered   = '';
+
+  function updateDots() {
+    dots.forEach((d, i) => {
+      d.classList.toggle('filled', i < entered.length);
+      d.classList.remove('error');
+    });
+  }
+
+  function wrongPin() {
+    dots.forEach(d => d.classList.add('error'));
+    dotsEl.classList.add('shake');
+    setTimeout(() => {
+      dotsEl.classList.remove('shake');
+      entered = '';
+      updateDots();
+    }, 500);
+  }
+
+  function checkPin() {
+    if (entered === CORRECT) {
+      lock.classList.add('unlocked');
+    } else {
+      wrongPin();
+    }
+  }
+
+  // أزرار الأرقام
+  lock.querySelectorAll('.pin-btn[data-n]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (entered.length >= 8) return;
+      entered += btn.dataset.n;
+      updateDots();
+      if (entered.length === 8) setTimeout(checkPin, 160);
+    });
+  });
+
+  // زر الحذف
+  document.getElementById('pinDel').addEventListener('click', () => {
+    entered = entered.slice(0, -1);
+    updateDots();
+  });
+
+  // لوحة المفاتيح (desktop)
+  document.addEventListener('keydown', e => {
+    if (lock.classList.contains('unlocked')) return;
+    if (e.key >= '0' && e.key <= '9' && entered.length < 8) {
+      entered += e.key;
+      updateDots();
+      if (entered.length === 8) setTimeout(checkPin, 160);
+    } else if (e.key === 'Backspace') {
+      entered = entered.slice(0, -1);
+      updateDots();
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  initFractalIntro();   // ← شجرة الفراكتال الافتتاحية أولاً
+  initPinLock();        // ← شاشة الرمز السرية أولاً
+  initFractalIntro();   // ← شجرة الفراكتال الافتتاحية
   initParticles();
   initHeroCanvas();     // ← مجسم 3D في الهيرو
   initRevealAnimations();
