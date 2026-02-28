@@ -14,13 +14,14 @@
   --bg-glass: rgba(255, 255, 255, 0.04);
   --border-glass: rgba(255, 255, 255, 0.08);
 
-  --gold-100: #fff8e7;
-  --gold-200: #f5d77a;
-  --gold-300: #d4a843;
-  --gold-400: #c49234;
-  --gold-500: #a8792b;
-  --gold-gradient: linear-gradient(135deg, #f5d77a, #c49234, #a8792b);
-  --gold-glow: 0 0 30px rgba(212, 168, 67, 0.3);
+  /* ── Neon Purple/Blue Palette (replaces gold) ── */
+  --gold-100: #f5f0ff;
+  --gold-200: #a78bfa;
+  --gold-300: #8b5cf6;
+  --gold-400: #7c3aed;
+  --gold-500: #6d28d9;
+  --gold-gradient: linear-gradient(135deg, #a78bfa, #7c3aed, #60a5fa);
+  --gold-glow: 0 0 30px rgba(139, 92, 246, 0.35), 0 0 60px rgba(96, 165, 250, 0.15);
 
   --teal-400: #2dd4bf;
   --teal-500: #14b8a6;
@@ -28,6 +29,9 @@
 
   --purple-400: #a78bfa;
   --purple-500: #8b5cf6;
+  --neon-blue: #60a5fa;
+  --neon-purple-dim: rgba(139, 92, 246, 0.12);
+  --purple-glow: 0 0 40px rgba(139, 92, 246, 0.4), 0 0 80px rgba(139, 92, 246, 0.15);
 
   --text-primary: #f0ece4;
   --text-secondary: rgba(240, 236, 228, 0.7);
@@ -73,8 +77,8 @@ body {
 }
 
 ::selection {
-  background: var(--gold-300);
-  color: var(--bg-primary);
+  background: var(--purple-500);
+  color: #fff;
 }
 
 ::-webkit-scrollbar {
@@ -118,7 +122,7 @@ body {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 2px solid rgba(212, 168, 67, 0.4);
+  border: 2px solid rgba(139, 92, 246, 0.4);
   background: transparent;
   display: block;
   transition: var(--transition-fast);
@@ -142,7 +146,7 @@ body {
   background: rgba(10, 10, 18, 0.85);
   padding: 4px 12px;
   border-radius: 6px;
-  border: 1px solid rgba(212, 168, 67, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
 }
 
 .side-nav a:hover::after,
@@ -154,7 +158,7 @@ body {
 .side-nav a:hover {
   background: var(--gold-300);
   border-color: var(--gold-300);
-  box-shadow: 0 0 12px rgba(212, 168, 67, 0.5);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
   transform: scale(1.4);
 }
 
@@ -243,7 +247,9 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(212, 168, 67, 0.08) 0%, transparent 70%);
+  background:
+    radial-gradient(ellipse 70% 60% at 30% 40%, rgba(139, 92, 246, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 70% 60%, rgba(96, 165, 250, 0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -264,7 +270,7 @@ body {
   font-size: 0.85rem;
   color: var(--gold-200);
   margin-bottom: 32px;
-  background: rgba(212, 168, 67, 0.08);
+  background: rgba(139, 92, 246, 0.08);
   animation: fadeInDown 1s ease-out;
 }
 
@@ -395,7 +401,7 @@ body {
 }
 
 .btn-outline:hover {
-  background: rgba(212, 168, 67, 0.1);
+  background: rgba(139, 92, 246, 0.1);
   transform: translateY(-2px);
 }
 
@@ -430,7 +436,7 @@ body {
   margin: 0 auto;
   padding: 2px;
   border-radius: 50px;
-  background: linear-gradient(135deg, rgba(245, 215, 122, 0.6), rgba(196, 146, 52, 0.4), rgba(45, 212, 191, 0.25));
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.6), rgba(96, 165, 250, 0.4), rgba(139, 92, 246, 0.25));
 }
 
 .hero-search-wrapper::after {
@@ -669,7 +675,7 @@ body {
 }
 
 .vm-card:hover {
-  border-color: rgba(212, 168, 67, 0.2);
+  border-color: rgba(139, 92, 246, 0.2);
   transform: translateY(-4px);
   box-shadow: var(--gold-glow);
 }
@@ -707,9 +713,9 @@ body {
 }
 
 .vision-card .vm-card-icon {
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.15), rgba(212, 168, 67, 0.05));
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
   color: var(--gold-200);
-  border: 1px solid rgba(212, 168, 67, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .mission-card .vm-card-icon {
@@ -832,7 +838,7 @@ body {
 }
 
 .obj-item:hover {
-  border-color: rgba(212, 168, 67, 0.15);
+  border-color: rgba(139, 92, 246, 0.15);
   transform: translateX(-4px);
 }
 
@@ -850,9 +856,9 @@ body {
 }
 
 .panel-cultural .obj-item-num {
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.15), rgba(212, 168, 67, 0.05));
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
   color: var(--gold-200);
-  border: 1px solid rgba(212, 168, 67, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .panel-dev .obj-item-num {
@@ -1031,7 +1037,7 @@ body {
 .partner-tab.active {
   background: var(--bg-card);
   color: var(--gold-200);
-  border: 1px solid rgba(212, 168, 67, 0.2);
+  border: 1px solid rgba(139, 92, 246, 0.2);
 }
 
 .partners-panel {
@@ -1062,7 +1068,7 @@ body {
 }
 
 .partner-card:hover {
-  border-color: rgba(212, 168, 67, 0.15);
+  border-color: rgba(139, 92, 246, 0.15);
   transform: translateY(-3px);
 }
 
@@ -1097,8 +1103,8 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 1.4rem;
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.1), rgba(212, 168, 67, 0.03));
-  border: 1px solid rgba(212, 168, 67, 0.12);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.03));
+  border: 1px solid rgba(139, 92, 246, 0.12);
 }
 
 .partner-card-name {
@@ -1154,7 +1160,7 @@ body {
 
 .team-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(212, 168, 67, 0.2);
+  border-color: rgba(139, 92, 246, 0.2);
   box-shadow: var(--gold-glow);
 }
 
@@ -1180,8 +1186,8 @@ body {
   border-radius: 50%;
   margin: 0 auto 20px;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.12), rgba(212, 168, 67, 0.04));
-  border: 2px solid rgba(212, 168, 67, 0.2);
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.04));
+  border: 2px solid rgba(139, 92, 246, 0.2);
 }
 
 .team-avatar img {
@@ -1213,9 +1219,9 @@ body {
   padding: 6px 16px;
   border-radius: 100px;
   display: inline-block;
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.12), rgba(212, 168, 67, 0.04));
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(139, 92, 246, 0.04));
   color: var(--gold-200);
-  border: 1px solid rgba(212, 168, 67, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.15);
 }
 
 .team-card:nth-child(2) .team-avatar,
@@ -1253,7 +1259,7 @@ body {
   position: relative;
   z-index: 1;
   padding: 80px 40px;
-  background: linear-gradient(135deg, rgba(212, 168, 67, 0.04), rgba(20, 20, 50, 0.8));
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.04), rgba(20, 20, 50, 0.8));
   border-top: 1px solid var(--border-glass);
   border-bottom: 1px solid var(--border-glass);
 }
@@ -1528,7 +1534,7 @@ body {
   font-family: var(--font-heading);
   font-size: clamp(2.8rem, 12vw, 7rem);
   font-weight: 900;
-  background: linear-gradient(135deg, #f5d77a, #c49234, #a8792b);
+  background: var(--gold-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1537,7 +1543,7 @@ body {
   animation: fractalReveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
   text-shadow: none;
   /* Subtle glow effect behind the gradient text */
-  filter: drop-shadow(0 0 20px rgba(212, 168, 67, 0.35));
+  filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.45));
 }
 
 .fractal-tagline {
@@ -1565,7 +1571,7 @@ body {
 
 .fractal-hint-finger {
   font-size: clamp(1.6rem, 5vw, 2.2rem);
-  color: rgba(245, 215, 122, 0.8);
+  color: rgba(167, 139, 250, 0.8);
   animation: fractalPulse 2s ease-in-out infinite;
 }
 
@@ -1577,12 +1583,12 @@ body {
 
 .fractal-hint-skip {
   background: none;
-  border: 1px solid rgba(245, 215, 122, 0.35);
+  border: 1px solid rgba(167, 139, 250, 0.35);
   border-radius: 50px;
   padding: 8px 22px;
   font-family: var(--font-body);
   font-size: clamp(0.75rem, 2.2vw, 0.85rem);
-  color: rgba(245, 215, 122, 0.75);
+  color: rgba(167, 139, 250, 0.75);
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 4px;
@@ -1591,9 +1597,9 @@ body {
 
 .fractal-hint-skip:hover,
 .fractal-hint-skip:focus-visible {
-  background: rgba(245, 215, 122, 0.12);
-  border-color: rgba(245, 215, 122, 0.7);
-  color: #f5d77a;
+  background: rgba(167, 139, 250, 0.12);
+  border-color: rgba(167, 139, 250, 0.7);
+  color: #a78bfa;
   outline: none;
 }
 
@@ -1630,4 +1636,108 @@ body.fractal-active {
   .fractal-hint-finger {
     font-size: 2rem;
   }
+}
+
+/* ══════════════════════════════════════
+   HERO CANVAS 3D — مجسم هندسي دوار
+   ══════════════════════════════════════ */
+
+/* Canvas الهيرو — يُرسم خلف المحتوى */
+#heroCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+}
+
+/* المنصة المضيئة تحت المجسم */
+.hero-platform-wrap {
+  position: absolute;
+  bottom: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 0;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-platform {
+  width: 280px;
+  height: 10px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(139, 92, 246, 0.2) 15%,
+    rgba(167, 139, 250, 0.5) 35%,
+    rgba(96, 165, 250, 0.7) 50%,
+    rgba(167, 139, 250, 0.5) 65%,
+    rgba(139, 92, 246, 0.2) 85%,
+    transparent 100%
+  );
+  border-radius: 50%;
+  transform: perspective(200px) rotateX(70deg);
+}
+
+.hero-platform-glow {
+  width: 220px;
+  height: 50px;
+  background: radial-gradient(ellipse, rgba(139, 92, 246, 0.3) 0%, rgba(96, 165, 250, 0.1) 50%, transparent 100%);
+  filter: blur(18px);
+  margin-top: -20px;
+}
+
+/* شبكة نقاط بنفسجية متوهجة */
+.dot-grid {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(167, 139, 250, 0.35) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, black 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 55% 55% at 50% 50%, black 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 0;
+  animation: dotPulse 4s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 0.9; }
+}
+
+/* حلقات هندسية متحركة في الخلفية */
+.hero-geo-ring {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: geoSpin linear infinite;
+}
+
+.hero-geo-ring::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple-400);
+  box-shadow: 0 0 12px var(--purple-400), 0 0 24px var(--purple-400);
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@keyframes geoSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* تأكيد أن محتوى الهيرو يظهر فوق الـ canvas */
+.hero-content {
+  position: relative;
+  z-index: 2;
 }
