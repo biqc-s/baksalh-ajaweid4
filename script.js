@@ -6,6 +6,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   initFractalIntro();   // ← شجرة الفراكتال الافتتاحية أولاً
   initParticles();
+  initHeroCanvas();     // ← مجسم 3D في الهيرو
   initRevealAnimations();
   initNavigation();
   initTabs();
@@ -224,10 +225,10 @@ function initParticles() {
   // Create particles — mix of shapes inspired by القط العسيري patterns
   const shapes = ['diamond', 'triangle', 'dot', 'line'];
   const goldColors = [
-    'rgba(245, 215, 122, 0.15)',
-    'rgba(212, 168, 67, 0.12)',
-    'rgba(196, 146, 52, 0.10)',
-    'rgba(168, 121, 43, 0.08)',
+    'rgba(167, 139, 250, 0.15)',
+    'rgba(139, 92, 246, 0.12)',
+    'rgba(96, 165, 250, 0.10)',
+    'rgba(124, 58, 237, 0.08)',
     'rgba(45, 212, 191, 0.06)',
   ];
 
@@ -298,7 +299,7 @@ function initParticles() {
         const dy = particles[i].y - particles[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
         if (dist < 150) {
-          ctx.strokeStyle = `rgba(212, 168, 67, ${0.03 * (1 - dist / 150)})`;
+          ctx.strokeStyle = `rgba(139, 92, 246, ${0.04 * (1 - dist / 150)})`;
           ctx.lineWidth = 0.5;
           ctx.beginPath();
           ctx.moveTo(particles[i].x, particles[i].y);
@@ -488,13 +489,152 @@ function animateCounter(el) {
 document.addEventListener('mousemove', (e) => {
   const heroContent = document.querySelector('.hero-content');
   if (!heroContent) return;
-  
+
   const rect = heroContent.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
-  
+
   const deltaX = (e.clientX - centerX) / window.innerWidth * 8;
   const deltaY = (e.clientY - centerY) / window.innerHeight * 8;
-  
+
   heroContent.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 });
+
+/* ══════════════════════════════════════
+   HERO CANVAS 3D — مجسم هندسي دوار
+   أوكتاهيدرون (8 أوجه) يدور ببطء
+   يستجيب لحركة الماوس بخفة
+   ══════════════════════════════════════ */
+function initHeroCanvas() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H, mouseX = 0, mouseY = 0;
+  let rotY = 0, rotX = 0.35;
+
+  // Vertices of an octahedron (6 points)
+  const R = 80;
+  const rawVerts = [
+    [ 0,  R,  0],  // top
+    [ 0, -R,  0],  // bottom
+    [ R,  0,  0],  // right
+    [-R,  0,  0],  // left
+    [ 0,  0,  R],  // front
+    [ 0,  0, -R],  // back
+  ];
+
+  // 8 triangular faces
+  const faces = [
+    [0, 2, 4], [0, 4, 3], [0, 3, 5], [0, 5, 2],
+    [1, 4, 2], [1, 3, 4], [1, 5, 3], [1, 2, 5],
+  ];
+
+  function rotateY(v, a) {
+    const c = Math.cos(a), s = Math.sin(a);
+    return [v[0]*c + v[2]*s, v[1], -v[0]*s + v[2]*c];
+  }
+  function rotateX(v, a) {
+    const c = Math.cos(a), s = Math.sin(a);
+    return [v[0], v[1]*c - v[2]*s, v[1]*s + v[2]*c];
+  }
+
+  const FOV = 350;
+  function project(v) {
+    const z = v[2] + FOV;
+    const scale = FOV / z;
+    return [W / 2 + v[0] * scale, H / 2 - v[1] * scale, z, scale];
+  }
+
+  function resize() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+
+  // Resize on load and on window resize
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Mouse influence on rotation
+  const hero = document.getElementById('hero');
+  if (hero) {
+    hero.addEventListener('mousemove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      mouseX = (e.clientX - rect.left - rect.width  / 2) / rect.width;
+      mouseY = (e.clientY - rect.top  - rect.height / 2) / rect.height;
+    });
+    hero.addEventListener('mouseleave', () => {
+      mouseX = 0; mouseY = 0;
+    });
+  }
+
+  let t = 0;
+  // Reduced-motion: skip heavy rendering
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animate() {
+    requestAnimationFrame(animate);
+    if (prefersReduced) return;
+
+    ctx.clearRect(0, 0, W, H);
+
+    t += 0.007;
+    rotY = t + mouseX * 0.5;
+    rotX = 0.35 + mouseY * 0.25;
+
+    // Transform vertices
+    const verts = rawVerts.map(v => {
+      let r = rotateY(v, rotY);
+      r = rotateX(r, rotX);
+      return project(r);
+    });
+
+    // Painter's algorithm: sort faces back-to-front
+    const sorted = [...faces].sort((a, b) => {
+      const zA = (verts[a[0]][2] + verts[a[1]][2] + verts[a[2]][2]) / 3;
+      const zB = (verts[b[0]][2] + verts[b[1]][2] + verts[b[2]][2]) / 3;
+      return zA - zB;
+    });
+
+    sorted.forEach(face => {
+      const [pA, pB, pC] = face.map(i => verts[i]);
+
+      // Quick face normal Z for basic lighting
+      const axN = pB[0]-pA[0], ayN = pB[1]-pA[1];
+      const bxN = pC[0]-pA[0], byN = pC[1]-pA[1];
+      const nz  = axN*byN - ayN*bxN;
+      const light = Math.max(0, nz / (Math.abs(nz) + 1)) * 0.35 + 0.04;
+
+      ctx.beginPath();
+      ctx.moveTo(pA[0], pA[1]);
+      ctx.lineTo(pB[0], pB[1]);
+      ctx.lineTo(pC[0], pC[1]);
+      ctx.closePath();
+
+      // Face fill: purple tint
+      ctx.fillStyle = `rgba(139, 92, 246, ${light})`;
+      ctx.fill();
+
+      // Glowing edge lines
+      ctx.strokeStyle = 'rgba(167, 139, 250, 0.75)';
+      ctx.lineWidth = 1.2;
+      ctx.shadowColor = 'rgba(167, 139, 250, 1)';
+      ctx.shadowBlur = 7;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+    });
+
+    // Glowing vertex dots
+    verts.forEach(v => {
+      ctx.beginPath();
+      ctx.arc(v[0], v[1], 3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(167, 139, 250, 0.95)';
+      ctx.shadowColor = 'rgba(167, 139, 250, 1)';
+      ctx.shadowBlur = 12;
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    });
+  }
+
+  animate();
+}
