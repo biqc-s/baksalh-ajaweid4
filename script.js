@@ -56,7 +56,7 @@ function initPinLock() {
 
   // لوحة المفاتيح (desktop)
   document.addEventListener('keydown', e => {
-    if (lock.classList.contains('unlocked')) return;
+    if (!lock.classList.contains('active')) return;
     if (e.key >= '0' && e.key <= '9' && entered.length < 8) {
       entered += e.key;
       updateDots();
@@ -66,11 +66,25 @@ function initPinLock() {
       updateDots();
     }
   });
+
+  // انتظر اختفاء الفراكتال ثم أظهر شاشة PIN
+  const fractalIntro = document.getElementById('fractalIntro');
+  if (fractalIntro) {
+    const observer = new MutationObserver(() => {
+      if (fractalIntro.classList.contains('fractal-hidden')) {
+        observer.disconnect();
+        setTimeout(() => lock.classList.add('active'), 500);
+      }
+    });
+    observer.observe(fractalIntro, { attributes: true, attributeFilter: ['class'] });
+  } else {
+    lock.classList.add('active');
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initPinLock();        // ← شاشة الرمز السرية أولاً
-  initFractalIntro();   // ← شجرة الفراكتال الافتتاحية
+  initFractalIntro();   // ← شجرة الفراكتال أولاً
+  initPinLock();        // ← شاشة PIN تنتظر اختفاء الفراكتال
   initParticles();
   initHeroCanvas();     // ← مجسم 3D في الهيرو
   initRevealAnimations();
