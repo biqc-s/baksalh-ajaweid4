@@ -1953,6 +1953,7 @@ body.fractal-active {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  direction: ltr;
 }
 
 .pin-btn {
