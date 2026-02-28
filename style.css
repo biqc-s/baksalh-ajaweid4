@@ -1616,7 +1616,7 @@ body {
 }
 
 .fractal-logo {
-  font-family: var(--font-heading);
+  font-family: var(--font-decorative);
   font-size: clamp(2.8rem, 12vw, 7rem);
   font-weight: 900;
   background: var(--gold-gradient);
