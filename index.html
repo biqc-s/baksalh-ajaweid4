@@ -69,13 +69,16 @@
     <!-- ═══ Top Navigation Bar ═══ -->
     <nav class="top-nav" aria-label="التنقل العلوي">
         <div class="logo">بِكسلة</div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="#vision">الرؤية</a></li>
             <li><a href="#objectives">الأهداف</a></li>
             <li><a href="#alignment">المواءمة</a></li>
             <li><a href="#partners">الشركاء</a></li>
             <li><a href="#team">الفريق</a></li>
         </ul>
+        <button class="nav-hamburger" id="navHamburger" aria-label="فتح القائمة" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
 
     <!-- ══════════════════════════════════════
@@ -94,10 +97,6 @@
         <div class="hero-geo-ring" aria-hidden="true" style="width:350px;height:350px;border:1px solid rgba(96,165,250,0.06);bottom:-50px;left:-80px;animation-duration:35s;animation-direction:reverse;"></div>
 
         <div class="hero-content">
-            <div class="hero-badge">
-                <span class="dot"></span>
-                بِكسلة — من البكسل إلى الأصالة
-            </div>
             <h1 class="hero-title">
                 <span class="highlight">بِكسلة</span>
                 <span class="line2">حين تروي البكسلات .. حكايا الأجداد</span>
@@ -647,7 +646,11 @@
                 </div>
                 <h4 class="team-name">سعيد آل جهاش</h4>
                 <p class="team-subtitle">مطور ألعاب مستقل مرخص من الهيئة العامة لتنظيم الإعلام</p>
-                <span class="team-role">المهندس التقني</span>
+                <span class="team-role">الشريك التقني</span>
+                <div class="team-tags">
+                    <span class="team-tag">ترخيص تطوير الألعاب</span>
+                    <span class="team-tag">AI Engineer</span>
+                </div>
             </div>
 
             <!-- عضو 3: محمد واص -->
