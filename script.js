@@ -7,7 +7,7 @@
    PIN LOCK — قفل الدخول بالرمز السري
    ══════════════════════════════════════════════════════ */
 function initPinLock() {
-  const CORRECT = '19961417';
+  const CORRECT = '14171417';
   const lock    = document.getElementById('pinLock');
   const dotsEl  = document.getElementById('pinDots');
   const dots    = dotsEl.querySelectorAll('span');
