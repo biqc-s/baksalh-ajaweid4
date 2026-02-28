@@ -1966,20 +1966,23 @@ body.fractal-active {
   font-family: var(--font-heading);
   font-size: 1.5rem;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s,
+              box-shadow 0.15s, color 0.15s;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.pin-btn:hover {
-  background: rgba(139, 92, 246, 0.18);
-  border-color: var(--purple-400);
+@media (hover: hover) {
+  .pin-btn:hover {
+    background: rgba(139, 92, 246, 0.18);
+    border-color: var(--purple-400);
+  }
 }
 
-.pin-btn:active,
 .pin-btn.pressed {
   transform: scale(0.9);
   background: rgba(139, 92, 246, 0.55);
