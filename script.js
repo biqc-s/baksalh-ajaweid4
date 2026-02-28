@@ -38,6 +38,14 @@ function initPinLock() {
     }
   }
 
+  // تأثير الضغط اللحظي على جميع الأزرار
+  lock.querySelectorAll('.pin-btn').forEach(btn => {
+    btn.addEventListener('pointerdown', () => btn.classList.add('pressed'));
+    btn.addEventListener('pointerup',   () => btn.classList.remove('pressed'));
+    btn.addEventListener('pointerleave',() => btn.classList.remove('pressed'));
+    btn.addEventListener('pointercancel',()=> btn.classList.remove('pressed'));
+  });
+
   // أزرار الأرقام
   lock.querySelectorAll('.pin-btn[data-n]').forEach(btn => {
     btn.addEventListener('click', () => {
