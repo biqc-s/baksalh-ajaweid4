@@ -90,7 +90,6 @@ li {
   font-size: 2rem;
   color: var(--accent);
   margin-top: 20px;
-  font-style: italic;
 }
 
 
@@ -451,7 +450,33 @@ li {
   flex: 1 1 180px;
   min-width: 180px;
   max-width: 300px;
-  padding: 30px 15px;
+  padding: 30px 20px;
+  margin: 0 auto;
+}
+
+/* 9.5 Strategic Impact & Partnerships Lists */
+.strategic-impact-section ul li {
+  margin-bottom: 10px;
+  list-style-type: none;
+  position: relative;
+}
+
+.strategic-impact-section ul li::before {
+  content: "•";
+  color: var(--accent);
+  position: absolute;
+  right: -15px;
+  font-size: 1.2rem;
+}
+
+.partnerships-section .glass-panel {
+  transition: all 0.3s ease;
+}
+
+.partnerships-section .glass-panel:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 /* 9. Grid Layout Component */
