@@ -129,7 +129,7 @@ li {
 
 .nav-links {
   display: flex;
-  gap: 35px;
+  gap: 20px;
 }
 
 .nav-links li a {
