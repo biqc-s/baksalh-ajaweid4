@@ -33,6 +33,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Rate Initiative Tracking
+  const rateBtn = document.getElementById("rateBtn");
+  if (rateBtn) {
+    rateBtn.addEventListener("click", () => {
+      trackGAEvent('rate_initiative_click', {
+        'event_category': 'Engagement',
+        'event_label': 'Rate Initiative Clicked'
+      });
+    });
+  }
+
+  // WhatsApp Support Tracking
+  const whatsappBtn = document.getElementById("whatsappBtn");
+  if (whatsappBtn) {
+    whatsappBtn.addEventListener("click", () => {
+      trackGAEvent('whatsapp_support_click', {
+        'event_category': 'Engagement',
+        'event_label': 'WhatsApp Support Clicked'
+      });
+    });
+  }
+
   // إغلاق القائمة عند الضغط على أي رابط
   mobileLinks.forEach(link => {
     link.addEventListener("click", () => {
