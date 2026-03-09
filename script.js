@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Google Analytics Tracking Helper
+  const trackGAEvent = (eventName, eventParams = {}) => {
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, eventParams);
+    }
+  };
+
 
   // 2. القائمة الجانبية للجوال (Mobile Menu Overlay)
   const hamburgerBtn = document.getElementById("hamburgerBtn");
@@ -14,6 +21,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (hamburgerBtn) hamburgerBtn.addEventListener("click", toggleMenu);
   if (closeMenuBtn) closeMenuBtn.addEventListener("click", toggleMenu);
+
+  // Home Page Discover Button Tracking
+  const discoverBtn = document.getElementById("discoverBtn");
+  if (discoverBtn) {
+    discoverBtn.addEventListener("click", () => {
+      trackGAEvent('discover_click', {
+        'event_category': 'Engagement',
+        'event_label': 'Discover Initiative Clicked'
+      });
+    });
+  }
 
   // إغلاق القائمة عند الضغط على أي رابط
   mobileLinks.forEach(link => {
@@ -221,7 +239,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Attach click events to all portal links
   portalLinks.forEach(link => {
-    link.addEventListener("click", openModal);
+    link.addEventListener("click", (e) => {
+      openModal(e);
+      trackGAEvent('portal_click', {
+        'event_category': 'Engagement',
+        'event_label': 'Portal Link Clicked'
+      });
+    });
   });
 
   // Close modal via (X) button
@@ -241,6 +265,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Accept Terms and Redirect
   if (acceptTermsBtn) {
     acceptTermsBtn.addEventListener("click", () => {
+      trackGAEvent('accept_terms_click', {
+        'event_category': 'Conversion',
+        'event_label': 'Terms Accepted'
+      });
       window.location.href = "https://bixsrsh.i3j.io/";
     });
   }
